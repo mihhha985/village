@@ -1,6 +1,36 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:is(.dark *));
+@font-face {
+  font-family: 'Oranienbaum';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/oranienbaum/oranienbaum-regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 200;
+  font-display: swap;
+  src: url('/fonts/manrope/manrope-200.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 300;  
+  font-display: swap;
+  src: url('/fonts/manrope/manrope-300.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/manrope/manrope-400.ttf') format('truetype');
+}
 
 :root {
   --background: rgba(17, 17, 17, 1);
@@ -39,8 +69,8 @@
 }
 
 @theme inline {
-  --font-logo: var(--font-oranienbaum);
-	--font-sans: var(--font-manrope);
+  --font-logo: "Oranienbaum", serif;
+	--font-sans: "Manrope", sans-serif;
   --font-serif: "Playfair Display", Georgia, serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);

@@ -1,18 +1,5 @@
 import type { Metadata } from 'next'
-import { Oranienbaum, Manrope} from 'next/font/google'
 import '@/src/styles/globals.css'
-
-const oranienbaum = Oranienbaum({
-	subsets: ['latin', 'cyrillic'],
-	weight: ['400'],
-	variable: '--font-oranienbaum',
-});
-
-const manrope = Manrope({
-	subsets: ['latin', 'cyrillic'],
-	weight: ['200', '300', '400'],
-	variable: '--font-manrope',
-});
 
 export const metadata: Metadata = {
   title: 'DeРевня - бронирование домов в деревне',
@@ -26,7 +13,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${oranienbaum.variable} ${manrope.variable} antialiased`}>
+      <body className="antialiased">
         {children}
       </body>
     </html>
