@@ -29,43 +29,38 @@ export default function Home() {
       />
 
       {/* Hero Section */}
-      <HeroSection
-        title="Проведите свободное время с близкими на природе"
-        subtitle="Отдых в DeРевне — уютные технологичные дома и завораживающая красота природы вдали от суеты города"
-        searchFields={["Локация", "Дата заезда", "Дата выезда", "Количество гостей"]}
-        searchButton={{
-          text: "Искать",
-          variant: "accent"
-        }}
-      />
+      <HeroSection />
 
       {/* Experiences Section */}
       <ExperiencesSection
-        title="Неповторимый опыт в каждой поездке"
         experiences={[
           {
             title: "DeРевня Простор",
             description: "Современный дом с просторной террасой и бассейном. Идеально для семейного отдыха и встреч с друзьями.",
             features: ["Природа", "Бассейн", "Терраса", "Wi-Fi"],
-            price: "от 6 500 ₽",
-            image: "prostor.jpg",
-            buttonText: "Подробнее"
+            image: "/foto1.jpg",
+						variant: "vertical"
           },
           {
             title: "DeРевня Озеро",
             description: "Коттедж у воды с сауной и панорамными окнами. Романтичный отдых для двоих в окружении природы.",
             features: ["Озеро", "Сауна", "Романтика", "Природа"],
-            price: "от 8 500 ₽",
-            image: "ozero.jpg",
-            buttonText: "Подробнее"
+            image: "/foto2.jpg",
+						variant: "vertical"
           },
           {
             title: "DeРевня City",
             description: "Современный дом у города для комфортного отдыха. Все удобства цивилизации в окружении природы.",
             features: ["Город", "Комфорт", "Удобства", "Доступность"],
-            price: "от 5 500 ₽",
-            image: "city.jpg",
-            buttonText: "Подробнее"
+            image: "/foto3.jpg",
+						variant: "vertical"
+          },
+					{
+            title: "DеРевня. Longlife",
+            description: "Четыре приватных дома для долгосрочного проживания — выбор для тех, кто ценит уединение и стабильный комфорт.",
+            features: ["Город", "Комфорт", "Удобства", "Доступность", "Wi-Fi"],
+            image: "/foto4.jpg",
+						variant: "horizontal"
           }
         ]}
       />

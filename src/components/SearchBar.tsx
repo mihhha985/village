@@ -127,7 +127,7 @@ export function SearchBar() {
   return (
     <motion.div
 			layout
-			className="bg-card p-6 rounded-2xl border border-border shadow-lg absolute inset-0 w-full h-full">
+			className="bg-card p-6 rounded-2xl border border-border shadow-lg relative z-10">
       <div className="flex flex-col lg:flex-row flex-wrap gap-5">
         {/* Location Field */}
         <div className="flex flex-col flex-1 gap-y-2">
@@ -348,7 +348,7 @@ export function SearchBar() {
 				</Dialog>
       </div>
 			{/* Ошибки валидации */}
-			<AnimatePresence>
+			<AnimatePresence mode="wait">
       {validationErrors.length > 0 && (
         <motion.div
 					layout
@@ -364,7 +364,7 @@ export function SearchBar() {
 						initial={{ height: 0 }}
 						animate={{ height: "auto" }}
 						exit={{ height: 0, transition: { delay: 0.3 } }}
-						transition={{ duration: 0.3 }}
+						transition={{ duration: 0.3, ease: "linear", type: "keyframes" }}
 						className="flex items-start gap-2 pr-6">
 						<motion.i
 							initial={{ opacity: 0, y: -5 }}
@@ -373,11 +373,12 @@ export function SearchBar() {
 						>
 							<AlertCircle size={16} className="text-destructive-foreground mt-0.5 shrink-0" />
 						</motion.i>
-            <div className="text-sm text-destructive-foreground space-y-1">
+            <div
+							className="text-sm text-destructive-foreground space-y-1">
               {validationErrors.map((error, index) => (
                 <motion.div
                   initial={{ opacity: 0, y: -5 }}
-									animate={{ opacity: 1, y: 0, transition: { delay: index * 0.2 } }}
+									animate={{ opacity: 1, y: 0, transition: { delay: index * 0.1 } }}
 									exit={{ opacity: 0, y: -5 }}
 									transition={{ duration: 0.2 }}
 									key={index}>• {error}</motion.div>

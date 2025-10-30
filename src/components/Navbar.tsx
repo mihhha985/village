@@ -3,6 +3,7 @@ import  Link  from "next/link"
 import { useState } from "react";
 import { Button } from "@/src/lib/ui/button";
 import { Menu, X } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react"
 
 interface NavbarProps {
   logo: string;
@@ -58,11 +59,20 @@ export function Navbar({ logo, menuItems, ctaButton }: NavbarProps) {
        </div>
      </header>
      {/* Mobile Menu Overlay */}
-     {isMenuOpen && (
-       <div className="lg:hidden fixed inset-0 bg-background z-10">
-         {/* Navigation Links */}
-         <nav className="pt-25 w-full flex flex-col justify-center gap-y-5">
-           {menuItems.map((item, index) => (
+		 <AnimatePresence mode="wait">
+		  {isMenuOpen && (
+       <motion.div
+         initial={{ opacity: 0, height: 0 }}
+         animate={{ opacity: 1, height: '100%' }}
+         exit={{ opacity: 0, height: 0, transition: { delay: 0.3 } }}
+        className="w-full lg:hidden fixed top-0 left-0 bg-background z-10">
+        {/* Navigation Links */}
+        <motion.nav 
+					initial={{ opacity: 0, y: -80 }}
+					animate={{ opacity: 1, y: 0, transition: { delay: 0.3 } }}
+					exit={{ opacity: 0, y: -80 }}
+					className="pt-25 w-full flex flex-col justify-center gap-y-5">
+          {menuItems.map((item, index) => (
             <li key={index} className="list-none text-center">
               <Link
                 href={`#${item.toLowerCase().replace(/\s+/g, '-')}`}
@@ -72,10 +82,11 @@ export function Navbar({ logo, menuItems, ctaButton }: NavbarProps) {
                 {item}
               </Link>
              </li>
-           ))}
-         </nav>
-       </div>
+          ))}
+        </motion.nav>
+       </motion.div>
      )}
+		 </AnimatePresence>
      </>
    );
  }

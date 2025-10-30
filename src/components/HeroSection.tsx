@@ -22,9 +22,7 @@ export function HeroSection() {
         <div className="static lg:absolute right-0 -top-40 mb-20 lg:mb-0">
           <Image src="/bg-hero.png" alt="fon" width={800} height={600}/> 
         </div>
-				<div className="relative z-10">
-        	<SearchBar />
-				</div>
+        <SearchBar />
       </div>
       <div className="absolute bottom-0 left-0 w-full h-[227px] bg-linear-to-t from-[rgb(17,17,17)] to-[rgba(17,17,17,.1)]"></div>
     </section>
