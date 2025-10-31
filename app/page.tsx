@@ -6,7 +6,7 @@ import { PlansSection } from "@/src/components/PlansSection";
 import { HowToBookSection } from "@/src/components/HowToBookSection";
 import { ContactSection } from "@/src/components/ContactSection";
 import { Footer } from "@/src/components/Footer";
-import { Heart, Users, Users2, MapPin, Calendar, CheckCircle, Phone, Mail, Instagram, MessageCircle } from "lucide-react";
+import { Heart, Users, Users2, MapPin, Calendar, CheckCircle, Instagram, MessageCircle } from "lucide-react";
 
 export default function Home() {
   return (
@@ -66,47 +66,7 @@ export default function Home() {
       />
 
       {/* Locations Section */}
-      <LocationsSection
-        title="Наши локации"
-        locations={[
-          {
-            id: "prostor",
-            name: "DeРевня Простор",
-            description: "Просторные дома в окружении леса с бассейном и террасой",
-            coordinates: "60.1234, 30.5678",
-            distance: "50 минут от центра СПб",
-            price: "от 6 500 ₽/ночь",
-            image: "prostor.jpg"
-          },
-          {
-            id: "ozero",
-            name: "DeРевня Озеро",
-            description: "Романтичные коттеджи у озера с сауной и панорамными окнами",
-            coordinates: "60.2345, 30.6789",
-            distance: "45 минут от центра СПб",
-            price: "от 8 500 ₽/ночь",
-            image: "ozero.jpg"
-          },
-          {
-            id: "city",
-            name: "DeРевня City",
-            description: "Современные дома у города с удобным доступом и всеми удобствами",
-            coordinates: "60.3456, 30.7890",
-            distance: "30 минут от центра СПб",
-            price: "от 5 500 ₽/ночь",
-            image: "city.jpg"
-          },
-          {
-            id: "longlife",
-            name: "DeРевня Longlife",
-            description: "Экологичные дома для длительного проживания с садом и огородом",
-            coordinates: "60.4567, 30.8901",
-            distance: "60 минут от центра СПб",
-            price: "от 7 500 ₽/ночь",
-            image: "longlife.jpg"
-          }
-        ]}
-      />
+      <LocationsSection />
 
       {/* Plans Section */}
       <PlansSection

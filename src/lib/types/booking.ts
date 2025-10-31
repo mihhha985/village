@@ -64,3 +64,28 @@ export const LOCATIONS = {
 } as const;
 
 export type LocationKey = keyof typeof LOCATIONS;
+
+// Типы для карты и локаций
+export interface LocationCoordinates {
+  lat: number;
+  lng: number;
+}
+
+export interface LocationData {
+  id: LocationKey;
+  name: string;
+  description: string;
+  coordinates: LocationCoordinates;
+  address: string;
+  distance: string;
+  price: string;
+  image: string;
+}
+
+// Координаты локаций (примерные координаты в Московской области)
+export const LOCATION_COORDINATES: Record<LocationKey, LocationCoordinates> = {
+  prostor: { lat: 55.7558, lng: 37.6173 }, // Москва центр
+  ozero: { lat: 55.9116, lng: 37.7307 },   // Север Москвы
+  city: { lat: 55.6847, lng: 37.6086 },    // Юг Москвы
+  longlife: { lat: 55.7522, lng: 37.8156 }, // Восток Москвы
+} as const;

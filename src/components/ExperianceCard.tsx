@@ -17,14 +17,14 @@ export function ExperienceCard(
 ) {
 	console.log(image);
   return (
-    <Card className={`p-4 ${variant === "horizontal" ? "flex-col lg:flex-row col-span-1 lg:col-span-3" : "flex-col"}`}>
+    <Card className={`p-4 flex ${variant === "horizontal" ? "flex-col lg:flex-row col-span-1 lg:col-span-3" : "flex-col"}`}>
       {/* Image Placeholder */}
-      <div className={`aspect-4/3 relative overflow-hidden rounded-2xl ${variant === "horizontal" ? "w-full lg:w-2/3" : "w-full"}`}>
-        <Image src={image} alt={title} layout="fill" objectFit="cover" />
+      <div className={`relative overflow-hidden rounded-2xl ${variant === "horizontal" ? "w-full lg:w-1/2 lg:mr-4 2xl:mr-20" : "w-full aspect-4/3"}`}>
+        <Image src={image} alt={title} className="object-cover" fill/>
       </div>
 
       {/* Content */}
-      <div className="flex flex-col gap-2">
+      <div className={`flex flex-col gap-2 ${variant === "horizontal" ? "lg:w-1/2" : ""}`}>
         <div>
           <h3 className="text-xl text-foreground mb-2">{title}</h3>
           <p className="text-muted-foreground leading-relaxed">{description}</p>
