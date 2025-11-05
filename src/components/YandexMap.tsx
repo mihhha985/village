@@ -89,18 +89,101 @@ export function YandexMap({ center, zoom = 10, markers = [] }: YandexMapProps) {
 
         await window.ymaps3.ready;
 
-        const { YMap, YMapDefaultSchemeLayer, YMapDefaultFeaturesLayer, YMapMarker } = window.ymaps3;
+        const { 
+          YMap, 
+          YMapDefaultSchemeLayer, 
+          YMapDefaultFeaturesLayer, 
+          YMapMarker
+        } = window.ymaps3;
 
-        // Создаем новую карту с обновленными координатами
+        // Создаем новую карту с обновленными координатами и отключенным взаимодействием
         const map = new YMap(mapRef.current, {
           location: {
             center: [center.lng, center.lat],
             zoom: zoom,
           },
+          // Отключаем все взаимодействия с картой
+          behaviors: [],
         });
 
-        // Добавляем слои (важно!)
-        map.addChild(new YMapDefaultSchemeLayer());
+        // Добавляем слои с кастомной темной темой
+        map.addChild(new YMapDefaultSchemeLayer({
+          theme: 'dark',
+          customization: [
+            {
+              tags: 'country',
+              elements: 'geometry.fill',
+              stylers: [
+                {
+                  color: '#1a1a1a', // --card
+                }
+              ]
+            },
+            {
+              tags: 'region',
+              elements: 'geometry.fill',
+              stylers: [
+                {
+                  color: '#111111', // --background
+                }
+              ]
+            },
+            {
+              tags: 'water',
+              elements: 'geometry',
+              stylers: [
+                {
+                  color: '#282828', // --muted
+                }
+              ]
+            },
+            {
+              tags: 'road',
+              elements: 'geometry.fill',
+              stylers: [
+                {
+                  color: '#2a2a2a',
+                }
+              ]
+            },
+            {
+              tags: 'road',
+              elements: 'geometry.outline',
+              stylers: [
+                {
+                  color: '#1a1a1a',
+                }
+              ]
+            },
+            {
+              tags: 'park',
+              elements: 'geometry',
+              stylers: [
+                {
+                  color: '#1f1f1f',
+                }
+              ]
+            },
+            {
+              tags: 'landscape',
+              elements: 'label.text.fill',
+              stylers: [
+                {
+                  color: '#bababa', // --muted-foreground
+                }
+              ]
+            },
+            {
+              tags: 'poi',
+              elements: 'label.text.fill',
+              stylers: [
+                {
+                  color: '#dea66d', // --primary
+                }
+              ]
+            }
+          ]
+        }));
         map.addChild(new YMapDefaultFeaturesLayer());
 
         mapInstanceRef.current = map;
@@ -157,7 +240,7 @@ export function YandexMap({ center, zoom = 10, markers = [] }: YandexMapProps) {
   // useEffect удален, так как маркеры обновляются в основном useEffect
   return (
     <div className="relative w-full h-full min-h-[400px] lg:min-h-[600px] rounded-2xl overflow-hidden bg-card border border-border">
-      <div ref={mapRef} className="w-full h-full" />
+      <div ref={mapRef} className="w-full h-full cursor-default" />
       
       {!isMapReady && (
         <div className="absolute inset-0 flex items-center justify-center bg-muted/80 backdrop-blur-sm">

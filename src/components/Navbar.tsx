@@ -5,16 +5,16 @@ import { Button } from "@/src/lib/ui/button";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react"
 
-interface NavbarProps {
-  logo: string;
-  menuItems: string[];
-  ctaButton: {
-    text: string;
-    variant: "accent" | "secondary";
-  };
-}
+const menuItems=[
+  "DeРевня Простор",
+  "DeРевня Озеро", 
+  "DeРевня City",
+  "DeРевня Longlife",
+  "О нас",
+  "Контакты"
+]
 
-export function Navbar({ logo, menuItems, ctaButton }: NavbarProps) {
+export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
@@ -36,7 +36,7 @@ export function Navbar({ logo, menuItems, ctaButton }: NavbarProps) {
             {/* Logo */}
             <div className="flex items-center">
               <h1 className="text-3xl sm:text-4xl xl:text-5xl font-logo text-foreground">
-                {logo}
+                DeРевня
               </h1>
             </div>
           </div>
@@ -54,7 +54,7 @@ export function Navbar({ logo, menuItems, ctaButton }: NavbarProps) {
           </nav>
 
           {/* CTA Button */}
-          <Button className="scale-90 sm:scale-100">{ctaButton.text}</Button>
+          <Button className="scale-90 sm:scale-100">Забронировать</Button>
          </div>
        </div>
      </header>

@@ -110,6 +110,9 @@
   body {
     @apply min-w-[360px] bg-background text-foreground font-sans font-extralight;
   }
+	section{
+		@apply py-6 lg:py-12;
+	}
 	.container{
 		@apply max-w-7xl mx-auto px-5;
 	}

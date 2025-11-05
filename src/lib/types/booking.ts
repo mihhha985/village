@@ -57,10 +57,10 @@ export const BOOKING_LIMITS = {
 } as const;
 
 export const LOCATIONS = {
-  prostor: 'Деревня. Простор',
-  ozero: 'Деревня. Озеро', 
-  city: 'Деревня. City',
-  longlife: 'Деревня. Longlife',
+  prostor: 'DeРевня. Простор',
+  ozero: 'DeРевня. Озеро', 
+  city: 'DeРевня. City',
+  longlife: 'DeРевня. Longlife',
 } as const;
 
 export type LocationKey = keyof typeof LOCATIONS;
@@ -82,10 +82,10 @@ export interface LocationData {
   image: string;
 }
 
-// Координаты локаций (примерные координаты в Московской области)
+// Координаты локаций (Ленинградская область, северная часть, на расстоянии 50-100 км друг от друга)
 export const LOCATION_COORDINATES: Record<LocationKey, LocationCoordinates> = {
-  prostor: { lat: 55.7558, lng: 37.6173 }, // Москва центр
-  ozero: { lat: 55.9116, lng: 37.7307 },   // Север Москвы
-  city: { lat: 55.6847, lng: 37.6086 },    // Юг Москвы
-  longlife: { lat: 55.7522, lng: 37.8156 }, // Восток Москвы
+  prostor: { lat: 60.7200, lng: 28.7500 }, // Выборгский район (у Выборга, ~130 км от СПб)
+  ozero: { lat: 60.1500, lng: 29.9500 },   // Всеволожский район (Ладожское озеро, ~40 км от СПб)
+  city: { lat: 59.8900, lng: 30.5200 },    // Всеволожск (близко к городу, ~20 км от СПб)
+  longlife: { lat: 60.5500, lng: 29.7700 }, // Приозерский район (у Ладоги, ~100 км от СПб)
 } as const;
