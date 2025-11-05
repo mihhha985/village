@@ -6,7 +6,7 @@ import { Label } from "@/src/lib/ui/label";
 import { Textarea } from "@/src/lib/ui/textarea";
 import { Checkbox } from "@/src/lib/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/src/lib/ui/select";
-import { Calendar as CalendarComponent } from "@/src/lib/ui/calendar";
+import { Calendar as CalendarComponent } from "@/src/components/ui/CustomCalendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/src/lib/ui/popover";
 import { Calendar, MapPin, ChevronDown, AlertCircle, X } from "lucide-react";
 import { useState } from "react";

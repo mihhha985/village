@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Button } from "@/src/lib/ui/button"
 import { Input } from "@/src/lib/ui/input"
 import { Card } from "@/src/lib/ui/card"
-import { Calendar } from "@/src/lib/ui/calendar"
+import { Calendar } from "@/src/components/ui/CustomCalendar"
 import { Spinner } from "@/src/lib/ui/spinner"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/src/lib/ui/form"
 import { IoLogoVk } from "react-icons/io5";
