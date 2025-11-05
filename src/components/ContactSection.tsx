@@ -2,26 +2,39 @@
 
 import { useState } from "react"
 import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
 import { Button } from "@/src/lib/ui/button"
 import { Input } from "@/src/lib/ui/input"
 import { Card } from "@/src/lib/ui/card"
 import { Calendar } from "@/src/lib/ui/calendar"
-import { Form, FormControl, FormField, FormItem, FormLabel } from "@/src/lib/ui/form"
+import { Spinner } from "@/src/lib/ui/spinner"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/src/lib/ui/form"
 import { IoLogoVk } from "react-icons/io5";
 import { Instagram } from "lucide-react"
 import { FaTelegramPlane, FaWhatsapp } from "react-icons/fa";
 import Title from "./ui/Title"
+import { toast } from "sonner"
+import * as z from "zod"
 
-type FormData = {
-  name: string
-  phone: string
-  email: string
-}
+const contactFormSchema = z.object({
+  name: z.string()
+    .min(2, { message: "Имя должно содержать минимум 2 символа" })
+    .max(50, { message: "Имя не должно превышать 50 символов" }),
+  phone: z.string()
+    .min(10, { message: "Введите корректный номер телефона" })
+    .regex(/^[\d\s\+\-\(\)]+$/, { message: "Номер телефона может содержать только цифры и символы +, -, (, )" }),
+  email: z.string()
+    .email({ message: "Введите корректный email адрес" }),
+})
+
+type FormData = z.infer<typeof contactFormSchema>
 
 export function ContactSection() {
-  const [date, setDate] = useState<Date | undefined>(new Date(2025, 8, 11))
+  const [date, setDate] = useState<Date | undefined>(undefined)
+	const [pending, setPending] = useState<boolean>(false)
 
   const form = useForm<FormData>({
+    resolver: zodResolver(contactFormSchema),
     defaultValues: {
       name: "",
       phone: "",
@@ -29,8 +42,24 @@ export function ContactSection() {
     },
   })
 
-  const onSubmit = (data: FormData) => {
-    console.log(data)
+  const onSubmit = async(data: FormData) => {
+
+		if (!date) {
+			toast.error("Пожалуйста, выберите дату заезда в календаре")
+			return
+		}
+
+		setPending(true)
+		await new Promise((resolve) => setTimeout(resolve, 1000)); // Симуляция задержки
+    const formDataWithDate = {
+      ...data,
+      date: date,
+    }
+    console.log("Отправка данных:", formDataWithDate)
+		toast.success("Форма успешно отправлена!")
+		setDate(undefined)
+		form.reset()
+		setPending(false)
   }
 
   return (
@@ -44,8 +73,9 @@ export function ContactSection() {
 					/>
           <div className="flex flex-col lg:flex-row gap-8">
             {/* Calendar Section */}
-            <Card className="border-none p-6 w-1/3">
+            <Card className="border-none p-0 sm:p-6 w-full lg:w-[45%] xl:w-1/3 ">
 							<Calendar
+								className="responsive-scale"
 								mode="single"
 								selected={date}
 								onSelect={setDate}
@@ -75,7 +105,7 @@ export function ContactSection() {
 						</Card>
 
             {/* Form Section */}
-            <Card className="p-6 border-none flex-1">
+            <Card className="p-4 sm:p-6 border-none flex-1">
               <h2 className="text-2xl lg:text-3xl font-light mb-8">
                 Поможем с выбором и предложим эксклюзивные условия
               </h2>
@@ -95,6 +125,7 @@ export function ContactSection() {
                             {...field}
                           />
                         </FormControl>
+                        <FormMessage />
                       </FormItem>
                     )}
                   />
@@ -112,6 +143,7 @@ export function ContactSection() {
                             {...field}
                           />
                         </FormControl>
+                        <FormMessage />
                       </FormItem>
                     )}
                   />
@@ -130,12 +162,17 @@ export function ContactSection() {
                             {...field}
                           />
                         </FormControl>
+                        <FormMessage />
                       </FormItem>
                     )}
                   />
 
-                  <Button type="submit" className="w-full p-6 mt-6">
-                    Отправить
+                  <Button
+										disabled={pending} 
+										type="submit" 
+										className="w-full p-6 mt-6">
+										{pending && <Spinner /> }
+										{pending ? "Отправка..." : "Отправить"}
                   </Button>
 
                   <p className="text-xs leading-relaxed">
@@ -152,7 +189,7 @@ export function ContactSection() {
         <div>
           <h2 className="text-3xl lg:text-4xl font-light mb-6">Связаться с нами</h2>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid lg:grid-cols-3 gap-8">
             <Card className="border-none p-6 text-lg">
               <h3>Телефон</h3>
               <p className="text-muted-foreground">+7 (999) 123-45-67</p>

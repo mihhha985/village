@@ -108,7 +108,7 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply min-w-[360px] bg-background text-foreground font-sans font-extralight;
+    @apply min-w-[380px] bg-background text-foreground font-sans font-extralight;
   }
 	section{
 		@apply py-6 lg:py-12;
@@ -169,4 +169,18 @@
     scrollbar-width: thin;
     scrollbar-color: var(--scrollbar-thumb) transparent;
   }
+}
+
+ /* Адаптивное масштабирование */
+  .responsive-scale {
+		position: relative;
+		right: 20px;
+    transform: scale(0.9);
+  }
+  
+  @media (min-width: 460px) {
+    .responsive-scale {
+      right: 0;
+      transform: scale(1);
+    }
 }
