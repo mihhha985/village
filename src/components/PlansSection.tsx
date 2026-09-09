@@ -4,6 +4,8 @@ import type React from "react"
 import { useState, useEffect, useRef } from "react"
 import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react"
 import { Button } from "@/src/lib/ui/button"
+import { useOrderModal } from "@/src/store/modal";
+import Title from "@/src/components/ui/Title"
 
 interface SlideData {
   id: number
@@ -40,6 +42,7 @@ const slides: SlideData[] = [
 ]
 
 export function PlansSection() {
+  const showOrder = useOrderModal(state => state.show);
   const [currentIndex, setCurrentIndex] = useState(0)
 
   const [isDragging, setIsDragging] = useState(false)
@@ -144,15 +147,13 @@ export function PlansSection() {
   }
 
   return (
-    <section className="selection">
+    <section className="type-section">
       <div className="container">
         {/* Header */}
-        <div className="flex flex-col lg:flex-row justify-between mb-8 gap-y-4">
-          <h2 className="text-4xl xl:text-5xl w-full lg:w-[40%] leading-tight">
-            Какие у вас планы?
-          </h2>
-					<p className="self-end w-full lg:w-1/3">Выберите сценарий своего отдыха и начните поиск среди подходящих вариантов размещения!</p>
-        </div>
+        <Title
+					title="Какие у вас планы?"
+					subtitle="Выберите сценарий своего отдыха и начните поиск среди подходяших вариантов размещения!"
+				/>
 
         {/* Slider Container */}
         <div className="relative">
@@ -194,7 +195,7 @@ export function PlansSection() {
                     <div className="relative h-full flex flex-col justify-end p-6 md:p-8">
                       <h3 className="text-2xl md:text-3xl font-light text-white mb-6 text-balance">{slide.title}</h3>
 
-                      <button className="flex items-center gap-2 text-white text-sm md:text-base group/btn transition-all hover:gap-3">
+                      <button aria-label="Найти подходящие варианты" onClick={showOrder} className="flex items-center gap-2 text-white text-sm md:text-base group/btn transition-all hover:gap-3">
                         <span>{slide.buttonText}</span>
                         <ArrowRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-1" />
                       </button>

@@ -1,67 +1,46 @@
-import { z } from 'zod';
+import { z } from "zod";
+import { startOfDay } from "date-fns";
+import { BOOKING_LIMITS, LOCATIONS } from "@/src/lib/types/booking";
 
-// Схема для Adult
 export const AdultSchema = z.object({
-  count: z.number().min(1, 'Минимум 1 взрослый').max(4, 'Максимум 4 взрослых на номер')
+  count: z.number().int().min(BOOKING_LIMITS.MIN_ADULTS_PER_ROOM).max(BOOKING_LIMITS.MAX_ADULTS_PER_ROOM),
 });
-
-// Схема для Children
 export const ChildrenSchema = z.object({
-  count: z.number().min(0, 'Количество детей не может быть отрицательным').max(6, 'Максимум 6 детей на номер'),
-  ages: z.array(z.number().min(0, 'Возраст не может быть отрицательным').max(17, 'Максимальный возраст ребенка 17 лет'))
-});
-
-// Схема для Room
+  count: z.number().int().min(0).max(BOOKING_LIMITS.MAX_CHILDREN_PER_ROOM),
+  ages: z.array(z.number().int().min(0).max(17)),
+}).refine(data => data.ages.length === data.count, { message: "Укажите возраст каждого ребёнка", path: ["ages"] });
 export const RoomSchema = z.object({
-  id: z.string(),
-  index: z.number(),
+  id: z.string().min(1),
+  index: z.number().int().positive(),
   adults: AdultSchema,
-  children: ChildrenSchema
+  children: ChildrenSchema,
 });
-
-// Схема для SearchData
-export const SearchDataSchema = z.object({
-  location: z.string().min(1, 'Выберите базу отдыха'),
-  checkIn: z.date({
-    message: 'Укажите дату заезда'
-  }),
-  checkOut: z.date({
-    message: 'Укажите дату выезда'
-  }),
-	guests: z.array(RoomSchema).min(1, 'Укажите количество гостей').nullable().refine((val) => val !== null, {
-		message: 'Информация о гостях обязательна'
-	}),
-}).refine((data) => {
-  if (data.checkIn && data.checkOut) {
-    return data.checkOut > data.checkIn;
-  }
-  return true;
-}, {
-  message: 'Дата выезда должна быть позже даты заезда',
-  path: ['checkOut']
+const guestsSchema = z.array(RoomSchema, { message: "Укажите количество гостей" }).min(1, "Укажите количество гостей")
+  .max(BOOKING_LIMITS.MAX_ROOMS, "Максимум 5 номеров")
+  .refine(rooms => new Set(rooms.map(room => room.id)).size === rooms.length, "Номера не должны повторяться");
+const checkInSchema = z.date({ message: "Укажите дату заезда" })
+  .refine(date => date >= startOfDay(new Date()), "Дата заезда не может быть в прошлом");
+const bookingFields = {
+  location: z.enum(Object.keys(LOCATIONS) as [keyof typeof LOCATIONS, ...(keyof typeof LOCATIONS)[]], { message: "Выберите базу отдыха" }),
+  checkIn: checkInSchema,
+  checkOut: z.date({ message: "Укажите дату выезда" }),
+  guests: guestsSchema,
+};
+const dateOrder = (data: { checkIn: Date; checkOut: Date }) => startOfDay(data.checkOut) > startOfDay(data.checkIn);
+const dateError = { message: "Дата выезда должна быть позже даты заезда", path: ["checkOut"] };
+export const SearchDataSchema = z.object(bookingFields).refine(dateOrder, dateError);
+export const ContactDataSchema = z.object({
+  name: z.string().trim().min(2, "Имя должно содержать минимум 2 символа").max(50, "Имя слишком длинное"),
+  phone: z.string().trim().regex(/^[+\d\s()-]+$/, "Некорректный формат телефона")
+    .refine(value => { const count = value.replace(/\D/g, "").length; return count >= 10 && count <= 15; }, "Телефон должен содержать от 10 до 15 цифр"),
+  email: z.string().trim().email("Некорректный email адрес"),
 });
-
-// Схема для данных заказа
+export const ContactRequestSchema = ContactDataSchema.extend({ date: checkInSchema });
 export const OrderDataSchema = z.object({
-  // Данные бронирования
-  location: z.string().min(1, 'Выберите базу отдыха'),
-  checkIn: z.date(),
-  checkOut: z.date(),
-  guests: z.array(RoomSchema).min(1, 'Укажите количество гостей'),
-  
-  // Контактные данные
-  name: z.string().min(2, 'Имя должно содержать минимум 2 символа').max(50, 'Имя слишком длинное'),
-  phone: z.string()
-    .min(10, 'Телефон должен содержать минимум 10 цифр')
-    .regex(/^[\d\s\+\-\(\)]+$/, 'Некорректный формат телефона'),
-  email: z.string().email('Некорректный email адрес'),
-  
-  // Дополнительные поля
-  comment: z.string().max(500, 'Комментарий слишком длинный').optional(),
-  agreement: z.boolean().refine((val) => val === true, {
-    message: 'Необходимо принять условия'
-  })
-});
-
+  ...bookingFields,
+  ...ContactDataSchema.shape,
+  comment: z.string().trim().max(500, "Комментарий слишком длинный").optional(),
+  agreement: z.boolean().refine(value => value, "Необходимо принять условия"),
+}).refine(dateOrder, dateError);
 export type SearchDataType = z.infer<typeof SearchDataSchema>;
 export type OrderDataType = z.infer<typeof OrderDataSchema>;

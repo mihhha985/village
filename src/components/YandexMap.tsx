@@ -27,46 +27,41 @@ export function YandexMap({ center, zoom = 10, markers = [] }: YandexMapProps) {
   const markersRef = useRef<any[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isMapReady, setIsMapReady] = useState(false);
-  const scriptLoadedRef = useRef(false);
+  const [error, setError] = useState<string | null>(null);
 
-  // Загрузка Яндекс.Карт API
   useEffect(() => {
-    if (typeof window === "undefined" || scriptLoadedRef.current) return;
-
-    const existingScript = document.querySelector(`script[src*="api-maps.yandex.ru"]`);
-    
-    if (existingScript) {
-      scriptLoadedRef.current = true;
-      // Проверяем асинхронно
-      setTimeout(() => {
-        if (window.ymaps3) {
-          setIsLoaded(true);
-        }
-      }, 100);
-      return;
+    let cancelled = false;
+    const fail = () => { if (!cancelled) setError("Карта временно недоступна. Адреса и координаты указаны рядом."); };
+    const loaded = () => {
+      clearTimeout(timeout);
+      if (!cancelled && window.ymaps3) setIsLoaded(true);
+      else if (!cancelled) fail();
+    };
+    const timeout = setTimeout(fail, 15000);
+    if (window.ymaps3) {
+      loaded();
+      return () => { cancelled = true; clearTimeout(timeout); };
     }
-
-    const script = document.createElement("script");
-    script.src = `https://api-maps.yandex.ru/v3/?apikey=${process.env.NEXT_PUBLIC_YANDEX_MAPS_API_KEY || ''}&lang=ru_RU`;
-    script.async = true;
-    
-    script.onload = () => {
-      scriptLoadedRef.current = true;
-      setIsLoaded(true);
-    };
-
-    script.onerror = () => {
-      console.error("Ошибка загрузки Яндекс.Карт");
-    };
-
-    document.body.appendChild(script);
-
+    const key = process.env.NEXT_PUBLIC_YANDEX_MAPS_API_KEY;
+    if (!key) {
+      queueMicrotask(fail);
+      clearTimeout(timeout);
+      return () => { cancelled = true; };
+    }
+    const existing = document.querySelector<HTMLScriptElement>('script[src*="api-maps.yandex.ru/v3/"]');
+    const script = existing ?? document.createElement("script");
+    script.addEventListener("load", loaded);
+    script.addEventListener("error", fail);
+    if (!existing) {
+      script.src = `https://api-maps.yandex.ru/v3/?apikey=${encodeURIComponent(key)}&lang=ru_RU`;
+      script.async = true;
+      document.body.appendChild(script);
+    }
     return () => {
-      // Cleanup при размонтировании
-      if (mapInstanceRef.current?.destroy) {
-        mapInstanceRef.current.destroy();
-        mapInstanceRef.current = null;
-      }
+      cancelled = true;
+      clearTimeout(timeout);
+      script.removeEventListener("load", loaded);
+      script.removeEventListener("error", fail);
     };
   }, []);
 
@@ -74,10 +69,13 @@ export function YandexMap({ center, zoom = 10, markers = [] }: YandexMapProps) {
   useEffect(() => {
     if (!mapRef.current || !isLoaded || !window.ymaps3) return;
 
+    let cancelled = false;
     const initMap = async () => {
       try {
 				setIsMapReady(false);
-				await new Promise((resolve) => setTimeout(resolve, 800)); // Ждем следующий тик
+				await window.ymaps3.ready;
+        if (cancelled || !mapRef.current) return;
+        setError(null);
         // Удаляем старую карту если она существует
         if (mapInstanceRef.current?.destroy) {
           mapInstanceRef.current.destroy();
@@ -86,8 +84,6 @@ export function YandexMap({ center, zoom = 10, markers = [] }: YandexMapProps) {
 
         // Очищаем маркеры
         markersRef.current = [];
-
-        await window.ymaps3.ready;
 
         const { 
           YMap, 
@@ -206,12 +202,15 @@ export function YandexMap({ center, zoom = 10, markers = [] }: YandexMapProps) {
                 </div>
                 ${marker.isActive ? `
                   <div class="absolute -top-12 left-1/2 -translate-x-1/2 bg-background border border-border rounded-lg px-3 py-1.5 shadow-lg whitespace-nowrap text-sm font-medium">
-                    ${marker.title}
+                    <span class="marker-title"></span>
                     <div class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-background border-r border-b border-border rotate-45"></div>
                   </div>
                 ` : ''}
               </div>
             `;
+
+            const title = markerElement.querySelector(".marker-title");
+            if (title) title.textContent = marker.title;
 
             const yandexMarker = new YMapMarker(
               {
@@ -228,25 +227,33 @@ export function YandexMap({ center, zoom = 10, markers = [] }: YandexMapProps) {
           markersRef.current = newMarkers;
         }
       } catch (error) {
+        if (cancelled) return;
         console.error("Ошибка инициализации карты:", error);
+        setError("Карта временно недоступна. Адреса и координаты указаны рядом.");
         setIsMapReady(false);
       }
     };
 
-    initMap();
+    void initMap();
+    return () => {
+      cancelled = true;
+      mapInstanceRef.current?.destroy();
+      mapInstanceRef.current = null;
+      markersRef.current = [];
+    };
   }, [isLoaded, center.lat, center.lng, zoom, markers]);
 
   // Обновление маркеров без пересоздания карты (теперь не нужен)
   // useEffect удален, так как маркеры обновляются в основном useEffect
   return (
     <div className="relative w-full h-full min-h-[400px] lg:min-h-[600px] rounded-2xl overflow-hidden bg-card border border-border">
-      <div ref={mapRef} className="w-full h-full cursor-default" />
+      <div ref={mapRef} className="absolute inset-0 cursor-default" />
       
       {!isMapReady && (
         <div className="absolute inset-0 flex items-center justify-center bg-muted/80 backdrop-blur-sm">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-            <p className="text-muted-foreground">Загрузка карты...</p>
+            {!error && <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4" />}
+            <p role="status" className="text-muted-foreground p-4">{error ?? "Загрузка карты..."}</p>
           </div>
         </div>
       )}

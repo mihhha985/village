@@ -1,121 +1,102 @@
-"use client";
+import { Button } from "@/src/lib/ui/button";
+import Link from "next/link";
+import { IoLogoVk } from "react-icons/io5";
+import { Instagram } from "lucide-react"
+import { FaTelegramPlane, FaWhatsapp } from "react-icons/fa";
 
-import { Mail, Phone, MapPin } from "lucide-react";
-
-interface FooterProps {
-  logo: string;
-  description: string;
-  menuSections: {
-    title: string;
-    links: { text: string; url: string }[];
-  }[];
-  contactInfo: {
-    phone: string;
-    email: string;
-    address: string;
-  };
-  socialLinks: {
-    name: string;
-    url: string;
-    icon: React.ReactNode;
-  }[];
-  copyright: string;
-}
-
-export function Footer({
-  logo,
-  description,
-  menuSections,
-  contactInfo,
-  socialLinks,
-  copyright
-}: FooterProps) {
+export function Footer() {
   return (
-    <footer className="bg-card border-t border-border">
-      <div className="container py-16">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* Logo & Description */}
-          <div className="lg:col-span-1">
-            <h3 className="text-2xl font-serif font-bold text-foreground mb-4">
-              {logo}
-            </h3>
-            <p className="text-muted-foreground leading-relaxed mb-6">
-              {description}
-            </p>
-            
-            {/* Social Links */}
-            <div className="flex space-x-4">
-              {socialLinks.map((link, index) => (
-                <a
-                  key={index}
-                  href={link.url}
-                  className="w-10 h-10 bg-muted hover:bg-accent rounded-full flex items-center justify-center text-muted-foreground hover:text-accent-foreground transition-all duration-200"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={link.name}
+		<footer className="bg-card">
+      <div className="container mx-auto py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+          {/* Brand and Social Section */}
+          <div className="space-y-6">
+            <h2 className="text-2xl font-logo">DeРевня</h2>
+            <div className="text-xs leading-relaxed space-y-1">
+              <p>© 2025 ООО «DeРевня». Все права защищены.</p>
+            </div>
+            <div className="space-y-3">
+              <p className="text-base">Мессенджеры и соц. сети</p>
+              <div className="flex gap-3">
+                <Button disabled title="Ссылка пока не настроена"
+                  className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center hover:bg-white/10 transition-colors"
+                  aria-label="telegram"
                 >
-                  {link.icon}
-                </a>
-              ))}
-            </div>
-          </div>
-
-          {/* Menu Sections */}
-          {menuSections.map((section, index) => (
-            <div key={index}>
-              <h4 className="text-lg font-serif font-bold text-foreground mb-4">
-                {section.title}
-              </h4>
-              <ul className="space-y-3">
-                {section.links.map((link, linkIndex) => (
-                  <li key={linkIndex}>
-                    <a
-                      href={link.url}
-                      className="text-muted-foreground hover:text-accent transition-colors duration-200"
-                    >
-                      {link.text}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-
-          {/* Contact Info */}
-          <div>
-            <h4 className="text-lg font-serif font-bold text-foreground mb-4">
-              Контакты
-            </h4>
-            <div className="space-y-4">
-              <div className="flex items-center space-x-3">
-                <Phone className="text-accent" size={18} />
-                <span className="text-muted-foreground">{contactInfo.phone}</span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <Mail className="text-accent" size={18} />
-                <span className="text-muted-foreground">{contactInfo.email}</span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <MapPin className="text-accent" size={18} />
-                <span className="text-muted-foreground">{contactInfo.address}</span>
+                  <FaTelegramPlane className="w-5 h-5" />
+                </Button>
+								<Button disabled title="Ссылка пока не настроена"
+                  className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center hover:bg-white/10 transition-colors"
+                  aria-label="WhatsApp"
+                >
+                  <FaWhatsapp className="w-5 h-5" />
+                </Button>
+                <Button disabled title="Ссылка пока не настроена"
+                  className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center hover:bg-white/10 transition-colors"
+                  aria-label="Instagram"
+                >
+                  <Instagram className="w-5 h-5" />
+                </Button>
+                <Button disabled title="Ссылка пока не настроена"
+                  className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center hover:bg-white/10 transition-colors"
+                  aria-label="VK"
+                >
+                  <IoLogoVk className="w-5 h-5" />
+                </Button>
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Bottom Bar */}
-        <div className="border-t border-border mt-12 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <p className="text-sm text-muted-foreground">
-              {copyright}
-            </p>
-            <div className="flex space-x-6 text-sm">
-              <a href="/privacy" className="text-muted-foreground hover:text-accent transition-colors duration-200">
-                Политика конфиденциальности
-              </a>
-              <a href="/terms" className="text-muted-foreground hover:text-accent transition-colors duration-200">
-                Условия использования
-              </a>
+          {/* Menu Section */}
+          <div className="space-y-4">
+            <h3 className="text-base font-normal">Меню</h3>
+            <nav className="flex flex-col gap-3">
+              <Link href="/" className="text-sm hover:text-accent transition-colors">
+                Главная
+              </Link>
+              <Link href="/about" className="text-sm hover:text-accent transition-colors">
+                О нас
+              </Link>
+              <Link href="/contacts" className="text-sm hover:text-accent transition-colors">
+                Контакты
+              </Link>
+            </nav>
+          </div>
+
+          {/* Recreation Bases Section */}
+          <div className="space-y-4">
+            <h3 className="text-base font-normal">Базы отдыха</h3>
+            <nav className="flex flex-col gap-3">
+              <Link href="/prostor" className="text-sm hover:text-accent transition-colors">
+                DeРевня. Простор
+              </Link>
+              <Link href="/ozero" className="text-sm hover:text-accent transition-colors">
+                DeРевня. Озеро
+              </Link>
+              <Link href="/city" className="text-sm hover:text-accent transition-colors">
+                DeРевня. City
+              </Link>
+              <Link href="/longlife" className="text-sm hover:text-accent transition-colors">
+                DeРевня. Longlife
+              </Link>
+            </nav>
+          </div>
+
+          {/* Contacts Section */}
+          <div className="space-y-4">
+            <h3 className="text-base font-normal">Контакты</h3>
+            <div className="space-y-3">
+              <div>
+                <p className="text-base text-muted-foreground mb-1">Телефон</p>
+                <Link href="tel:+79991234567" className="text-sm hover:text-accent transition-colors">
+                  +7 (999) 123-45-67
+                </Link>
+              </div>
+              <div>
+                <p className="text-base text-muted-foreground mb-1">Почта</p>
+                <Link href="mailto:hello@derevnya.ru" className="text-sm hover:text-accent transition-colors">
+                  hello@derevnya.ru
+                </Link>
+              </div>
             </div>
           </div>
         </div>

@@ -1,14 +1,15 @@
 import Image from "next/image";
 import { BookingSteps } from "./BookingStep";
-import Title from "./ui/Title";
+import Title from "@/src/components/ui/Title";
 
 export function HowToBookSection() {
   return (
-    <section className="section">
+    <section className="type-section">
       <div className="container">
         <Title 
-					title="Как забронировать?"
-					subtitle="Мы продумали максимум для вашего удобства, в том числе процесс бронирования -- всего 3 простых шага!"
+					variant="lg"
+					title="Свобода выбирать и быть собой"
+					subtitle="Мы не ограничились созданием одной базы отдыха, а создали целых четыре: чтобы у вас всегда была возможность найти своё «место силы» и привнести разнообразие в повседневность!"
 				/>
 				<div className="relative w-full h-auto">
 					<div className="absolute inset-0 bg-linear-to-bl from-background/40 to-transparent pointer-events-none"></div>

@@ -1,21 +1,24 @@
 "use client";
 
-import { useState } from "react";
+import Link from "next/link";
+import { useState, useEffect, useMemo } from "react";
 import { MapPin, Wallet, Navigation, Copy } from "lucide-react";
+import { toast } from "sonner";
+import Title from "@/src/components/ui/Title";
 import { Button } from "@/src/lib/ui/button";
 import { Separator } from "@/src/lib/ui/separator";
-import { 
-  Accordion, 
-  AccordionContent, 
-  AccordionItem, 
-  AccordionTrigger 
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger
 } from "@/src/lib/ui/accordion";
-import { YandexMap } from "./YandexMap";
-import { 
-  LOCATIONS, 
+import { YandexMap } from "@/src/components/YandexMap";
+import {
+  LOCATIONS,
   LOCATION_COORDINATES,
   type LocationKey,
-  type LocationData 
+  type LocationData
 } from "@/src/lib/types/booking";
 
 const MOCK_LOCATIONS: LocationData[] = [
@@ -67,26 +70,34 @@ export function LocationsSection() {
   const activeLocationData = MOCK_LOCATIONS.find(loc => loc.id === activeLocation);
   const mapCenter = activeLocationData?.coordinates || LOCATION_COORDINATES.prostor;
 
-  const mapMarkers = MOCK_LOCATIONS.map(location => ({
+  const mapMarkers = useMemo(() => MOCK_LOCATIONS.map(location => ({
     id: location.id,
     coordinates: location.coordinates,
     title: location.name,
     isActive: location.id === activeLocation
-  }));
+  })), [activeLocation]);
+
+  useEffect(() => {
+    const selectHash = () => {
+      const key = window.location.hash.slice(1);
+      if (Object.hasOwn(LOCATIONS, key)) setActiveLocation(key as LocationKey);
+    };
+    selectHash();
+    window.addEventListener("hashchange", selectHash);
+    return () => window.removeEventListener("hashchange", selectHash);
+  }, []);
 
   return (
-    <section className="section bg-card">
+    <section className="type-section bg-card">
       <div className="container">
-        <div className="flex flex-col lg:flex-row justify-between mb-8 gap-y-4">
-          <h2 className="text-4xl xl:text-5xl w-full lg:w-[40%] leading-tight">
-            Наши локации
-          </h2>
-					<p className="self-end w-full lg:w-1/3">На карте отмечены все локации наших баз отдыха Найдите оптимальный маршрут и приезжайте!</p>
-        </div>
+        <Title
+					title="Неповторимый опыт в каждой поездке"
+					subtitle="Выберите, какое место вам ближе — по расположению или по душе"
+				/>
 
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Map */}
-          <div className="w-ful lg:w-2/3">
+          <div className="w-full lg:w-2/3">
             <YandexMap
               center={mapCenter}
               zoom={11}
@@ -96,16 +107,16 @@ export function LocationsSection() {
 
           {/* Locations List with Accordion */}
           <div className="w-full lg:w-1/3">
-            <Accordion 
-              type="single" 
-              collapsible 
+            <Accordion
+              type="single"
+              collapsible
               value={activeLocation}
               onValueChange={(value) => value && setActiveLocation(value as LocationKey)}
               className="space-y-4"
             >
               {MOCK_LOCATIONS.map((location) => (
-                <AccordionItem 
-                  key={location.id} 
+                <AccordionItem
+                  id={location.id} key={location.id}
                   value={location.id}
                   className={`rounded-2xl overflow-hidden font-light ${
 										location.id === activeLocation ? "bg-primary text-background" : "bg-background text-foreground"
@@ -123,7 +134,7 @@ export function LocationsSection() {
                       </div>
                     </div>
                   </AccordionTrigger>
-                  
+
                   <AccordionContent className="px-6 pb-6">
                     <div className="flex flex-col gap-2 w-full">
                       <p>{location.description}</p>
@@ -132,7 +143,10 @@ export function LocationsSection() {
 												<span className="text-sm">Координаты:</span>
 												<span className="text-sm">
 													{location.coordinates.lat}, {location.coordinates.lng}
-													<Button variant="ghost" size="icon" className="ml-2 p-0.5">
+													<Button aria-label="Скопировать координаты" onClick={async () => {
+                          try { await navigator.clipboard.writeText(`${location.coordinates.lat}, ${location.coordinates.lng}`); toast.success("Координаты скопированы"); }
+                          catch { toast.error("Не удалось скопировать координаты"); }
+                        }} variant="ghost" size="icon" className="ml-2 p-0.5">
 														<Copy size={14} />
 													</Button>
 												</span>
@@ -143,14 +157,15 @@ export function LocationsSection() {
                           <Navigation size={16} />
                           <span>{location.address}</span>
                         </div>
-                        
+
                         <div className="flex items-center gap-2 text-sm">
                           <Wallet size={16} />
-                          <span>{location.price} ₽</span>
+                          <span>{location.price}</span>
                         </div>
                       </div>
 
-                      <Button variant="secondary" className="w-full mt-2">Подробнее</Button>
+                      <Button asChild variant="secondary" className="w-full mt-2"><Link href={`/${location.id}`} aria-label={`Подробнее о ${location.name}`}>Подробнее о локации</Link></Button>
+                      <Button asChild variant="secondary" className="w-full mt-2"><a aria-label={`Открыть ${location.name} на карте`} href={`https://yandex.ru/maps/?pt=${location.coordinates.lng},${location.coordinates.lat}&z=12&l=map`} target="_blank" rel="noopener noreferrer">Открыть на карте</a></Button>
                     </div>
                   </AccordionContent>
                 </AccordionItem>

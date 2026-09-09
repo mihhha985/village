@@ -2,32 +2,36 @@
 import  Link  from "next/link"
 import { useState } from "react";
 import { Button } from "@/src/lib/ui/button";
+import OrderButton from "@/src/components/ui/OrderButton";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react"
 
-const menuItems=[
-  "DeРевня Простор",
-  "DeРевня Озеро", 
-  "DeРевня City",
-  "DeРевня Longlife",
-  "О нас",
-  "Контакты"
-]
+const menuItems = [
+  { label: "DeРевня Простор", href: "/prostor" },
+  { label: "DeРевня Озеро", href: "/ozero" },
+  { label: "DeРевня City", href: "/city" },
+  { label: "DeРевня Longlife", href: "/longlife" },
+  { label: "О нас", href: "/about" },
+  { label: "Контакты", href: "/contacts" },
+];
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
     <>
-    <header className="absolute top-0 lg:top-10 left-0 w-full h-fit bg-card lg:bg-transparent z-20">
+    <header className="absolute top-0 lg:top-10 left-0 w-full h-fit bg-card lg:bg-transparent z-10">
       <div className="container">
         <div className="flex items-center justify-between h-18 lg:h-22">
           <div className="w-fit flex items-center gap-x-2 sm:gap-x-5">
             {/* Mobile Menu Button */}
             <div className="lg:hidden">
               <Button
-                size="icon" 
+                size="icon"
                 variant="ghost"
+                aria-label={isMenuOpen ? "Закрыть меню" : "Открыть меню"}
+                aria-expanded={isMenuOpen}
+                aria-controls="mobile-menu"
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
               >
                 {isMenuOpen ? <X /> : <Menu />}
@@ -35,9 +39,9 @@ export function Navbar() {
             </div>
             {/* Logo */}
             <div className="flex items-center">
-              <h1 className="text-3xl sm:text-4xl xl:text-5xl font-logo text-foreground">
+              <Link href="/" aria-label="DeРевня — главная" className="text-3xl sm:text-4xl xl:text-5xl font-logo text-foreground">
                 DeРевня
-              </h1>
+              </Link>
             </div>
           </div>
           {/* Desktop Menu */}
@@ -45,16 +49,16 @@ export function Navbar() {
             {menuItems.map((item, index) => (
               <Link
                 key={index}
-                href={`#${item.toLowerCase().replace(/\s+/g, '-')}`}
+                href={item.href}
                 className="link"
               >
-                {item}
+                {item.label}
               </Link>
             ))}
           </nav>
 
           {/* CTA Button */}
-          <Button className="scale-90 sm:scale-100">Забронировать</Button>
+          <OrderButton />
          </div>
        </div>
      </header>
@@ -66,8 +70,9 @@ export function Navbar() {
          animate={{ opacity: 1, height: '100%' }}
          exit={{ opacity: 0, height: 0, transition: { delay: 0.3 } }}
         className="w-full lg:hidden fixed top-0 left-0 bg-background z-10">
+        <Button aria-label="Закрыть меню" variant="ghost" size="icon" className="absolute top-4 right-4" onClick={() => setIsMenuOpen(false)}><X /></Button>
         {/* Navigation Links */}
-        <motion.nav 
+        <motion.nav id="mobile-menu"
 					initial={{ opacity: 0, y: -80 }}
 					animate={{ opacity: 1, y: 0, transition: { delay: 0.3 } }}
 					exit={{ opacity: 0, y: -80 }}
@@ -75,11 +80,11 @@ export function Navbar() {
           {menuItems.map((item, index) => (
             <li key={index} className="list-none text-center">
               <Link
-                href={`#${item.toLowerCase().replace(/\s+/g, '-')}`}
+                href={item.href}
                 className="link"
                 onClick={() => setIsMenuOpen(false)}
               >
-                {item}
+                {item.label}
               </Link>
              </li>
           ))}

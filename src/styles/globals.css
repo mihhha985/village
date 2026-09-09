@@ -10,7 +10,7 @@
 
 @font-face {
   font-family: 'Manrope';
-  font-style: extralight;
+  font-style: normal;
   font-weight: 200;
   font-display: swap;
   src: url('/fonts/manrope/manrope-200.ttf') format('truetype');
@@ -18,7 +18,7 @@
 
 @font-face {
   font-family: 'Manrope';
-  font-style: light;
+  font-style: normal;
   font-weight: 300;  
   font-display: swap;
   src: url('/fonts/manrope/manrope-300.ttf') format('truetype');
@@ -33,6 +33,7 @@
 }
 
 :root {
+  --radius: 0.625rem;
   --background: rgba(17, 17, 17, 1);
   --foreground: rgba(255, 255, 255, 1);
   --card: rgba(26, 26, 26, 1);
@@ -108,9 +109,9 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply min-w-[380px] bg-background text-foreground font-sans font-extralight;
+    @apply bg-background text-foreground font-sans font-extralight;
   }
-	section{
+	.type-section{
 		@apply py-6 lg:py-12;
 	}
 	.container{
@@ -184,3 +185,49 @@
       transform: scale(1);
     }
 }
+
+[data-slot="calendar"] { --cell-size: min(3rem, 10vw); }
+
+:root {
+  --locationHeading: clamp(2.75rem, 6vw, 5.25rem);
+  --locationSubheading: clamp(2rem, 4vw, 3.25rem);
+  --locationBody: 1rem;
+  --locationLead: 1.125rem;
+  --locationSmall: 0.875rem;
+  --locationLineHeight: 1.8;
+  --locationTitleLineHeight: 1.08;
+  --locationPageTop: 11rem;
+  --locationPhotoRatio: 4 / 3;
+  --locationHeroRatio: 5 / 4;
+  --locationLightboxWidth: 56rem;
+  --locationLightboxHeight: 55dvh;
+}
+
+.location-page { padding-top: var(--locationPageTop); }
+.location-heading, .location-subheading {
+  font-family: var(--font-logo);
+  font-weight: 400;
+  line-height: var(--locationTitleLineHeight);
+  overflow-wrap: anywhere;
+}
+.location-heading { font-size: var(--locationHeading); }
+.location-subheading { font-size: var(--locationSubheading); }
+.location-eyebrow { color: var(--primary); font-size: var(--locationSmall); }
+.location-lead { font-size: var(--locationLead); line-height: var(--locationLineHeight); }
+.location-copy { font-size: var(--locationBody); line-height: var(--locationLineHeight); color: var(--muted-foreground); }
+.location-caption, .location-back { font-size: var(--locationSmall); color: var(--muted-foreground); line-height: var(--locationLineHeight); }
+.location-panel, .location-related { background: var(--card); }
+.location-ideas { list-style: none; }
+.location-ideas li { border: 1px solid var(--border); border-radius: var(--radius); font-size: var(--locationSmall); color: var(--foreground); }
+.location-hero-photo, .location-photo { width: 100%; height: auto; object-fit: cover; border-radius: var(--radius); }
+.location-hero-photo { aspect-ratio: var(--locationHeroRatio); }
+.location-photo { aspect-ratio: var(--locationPhotoRatio); }
+.location-photo-button { display: block; width: 100%; height: auto; padding: 0; border-radius: var(--radius); overflow: hidden; }
+.location-photo-button:hover { outline: 1px solid var(--primary); }
+.location-related { border: 1px solid var(--border); border-radius: var(--radius); font-size: var(--locationLead); }
+.location-related:hover, .location-back:hover { color: var(--primary); }
+.location-page a:focus-visible { outline: 2px solid var(--primary); outline-offset: 4px; }
+.location-lightbox { width: calc(100% - 2rem); max-width: var(--locationLightboxWidth); max-height: 90dvh; overflow-y: auto; }
+.location-enlarged-photo { width: 100%; height: auto; max-height: var(--locationLightboxHeight); object-fit: contain; }
+#gallery { scroll-margin-top: 2rem; }
+.information-steps { list-style: decimal; }

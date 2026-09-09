@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Button } from "@/src/lib/ui/button"
@@ -12,24 +12,21 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { IoLogoVk } from "react-icons/io5";
 import { Instagram } from "lucide-react"
 import { FaTelegramPlane, FaWhatsapp } from "react-icons/fa";
-import Title from "./ui/Title"
+import Title from "@/src/components/ui/Title"
 import { toast } from "sonner"
 import * as z from "zod"
 
-const contactFormSchema = z.object({
-  name: z.string()
-    .min(2, { message: "Имя должно содержать минимум 2 символа" })
-    .max(50, { message: "Имя не должно превышать 50 символов" }),
-  phone: z.string()
-    .min(10, { message: "Введите корректный номер телефона" })
-    .regex(/^[\d\s\+\-\(\)]+$/, { message: "Номер телефона может содержать только цифры и символы +, -, (, )" }),
-  email: z.string()
-    .email({ message: "Введите корректный email адрес" }),
-})
+import { startOfDay } from "date-fns";
+import { ru } from "date-fns/locale";
+import { ContactDataSchema, ContactRequestSchema } from "@/src/lib/validations/booking";
+import { submitRequest } from "@/src/lib/utils/submit-request";
+
+const contactFormSchema = ContactDataSchema;
 
 type FormData = z.infer<typeof contactFormSchema>
 
 export function ContactSection() {
+  const submitting = useRef(false);
   const [date, setDate] = useState<Date | undefined>(undefined)
 	const [pending, setPending] = useState<boolean>(false)
 
@@ -49,27 +46,35 @@ export function ContactSection() {
 			return
 		}
 
-		setPending(true)
-		await new Promise((resolve) => setTimeout(resolve, 1000)); // Симуляция задержки
-    const formDataWithDate = {
-      ...data,
-      date: date,
+    if (submitting.current) return;
+    const result = ContactRequestSchema.safeParse({ ...data, date });
+    if (!result.success) {
+      toast.error(result.error.issues[0].message);
+      return;
     }
-    console.log("Отправка данных:", formDataWithDate)
-		toast.success("Форма успешно отправлена!")
-		setDate(undefined)
-		form.reset()
-		setPending(false)
+    submitting.current = true;
+    setPending(true);
+    try {
+      await submitRequest(result.data);
+      toast.success("Заявка успешно отправлена!");
+      setDate(undefined);
+      form.reset();
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Не удалось отправить заявку");
+    } finally {
+      submitting.current = false;
+      setPending(false);
+    }
   }
 
   return (
-    <section className="section">
+    <section id="contacts" className="type-section">
       <div className="container">
         {/* Main booking section */}
         <div className="mb-20">
-					<Title 
-						title="Бронирование в одно касание" 
-						subtitle="Выберите удобные даты и заполните форму заявки. Мы вам перезвоним!" 
+					<Title
+						title="Бронирование в одно касание"
+						subtitle="Выберите удобные даты и заполните форму заявки. Мы вам перезвоним!"
 					/>
           <div className="flex flex-col lg:flex-row gap-8">
             {/* Calendar Section */}
@@ -77,13 +82,15 @@ export function ContactSection() {
 							<Calendar
 								className="responsive-scale"
 								mode="single"
+                locale={ru}
+                disabled={{ before: startOfDay(new Date()) }}
 								selected={date}
 								onSelect={setDate}
 								formatters={{
 									formatCaption: (date) => {
 										const months = [
 											"Январь",
-											"Февраль", 
+											"Февраль",
 											"Март",
 											"Апрель",
 											"Май",
@@ -168,8 +175,8 @@ export function ContactSection() {
                   />
 
                   <Button
-										disabled={pending} 
-										type="submit" 
+										aria-label="Отправить заявку" disabled={pending}
+										type="submit"
 										className="w-full p-6 mt-6">
 										{pending && <Spinner /> }
 										{pending ? "Отправка..." : "Отправить"}
@@ -192,29 +199,21 @@ export function ContactSection() {
           <div className="grid lg:grid-cols-3 gap-8">
             <Card className="border-none p-6 text-lg">
               <h3>Телефон</h3>
-              <p className="text-muted-foreground">+7 (999) 123-45-67</p>
+              <a href="tel:+79991234567" aria-label="Позвонить в DeРевню" className="location-back">+7 (999) 123-45-67</a>
             </Card>
 
             <Card className="border-none p-6 text-lg">
               <h3>Почта</h3>
-              <p className="text-muted-foreground">hello@derevnya.ru</p>
+              <a href="mailto:hello@derevnya.ru" aria-label="Написать в DeРевню" className="location-back">hello@derevnya.ru</a>
             </Card>
 
             <Card className="border-none p-6">
               <h3 className="text-xl">Мессенджеры и соц. сети</h3>
               <div className="flex gap-3">
-								<Button variant="ghost" size="icon" className="border border-white text-lg font-light leading-none">
-									<FaTelegramPlane className="h-5 w-5" />
-								</Button>
-								<Button variant="ghost" size="icon" className="border border-white text-lg font-light leading-none">
-									<FaWhatsapp className="h-5 w-5" />
-								</Button>
-                <Button variant={"ghost"} size={"icon-lg"} className="border border-white">
-                  <Instagram className="w-5 h-5" />
-                </Button>
-                <Button variant={"ghost"} size={"icon-lg"} className="border border-white">
-                  <IoLogoVk className="w-5 h-5" />
-                </Button>
+								<Button disabled aria-label="Telegram — ссылка пока не настроена" variant="ghost" size="icon" className="border border-white text-lg font-light leading-none"><FaTelegramPlane className="h-5 w-5" /></Button>
+								<Button disabled aria-label="WhatsApp — ссылка пока не настроена" variant="ghost" size="icon" className="border border-white text-lg font-light leading-none"><FaWhatsapp className="h-5 w-5" /></Button>
+                <Button disabled aria-label="Instagram — ссылка пока не настроена" variant={"ghost"} size={"icon-lg"} className="border border-white"><Instagram className="w-5 h-5" /></Button>
+                <Button disabled aria-label="ВКонтакте — ссылка пока не настроена" variant={"ghost"} size={"icon-lg"} className="border border-white"><IoLogoVk className="w-5 h-5" /></Button>
               </div>
             </Card>
           </div>

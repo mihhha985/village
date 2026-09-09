@@ -1,10 +1,12 @@
 import Image from "next/image";
-import { Separator } from "../lib/ui/separator";
+import { Separator } from "@/src/lib/ui/separator";
 import { Card } from "@/src/lib/ui/card";
 import { Button } from "@/src/lib/ui/button";
 import { MapPin, Users } from "lucide-react";
+import OrderButton from "@/src/components/ui/OrderButton";
 
 export interface ExperienceCardProps {
+  location: import("@/src/lib/types/booking").LocationKey;
   title: string;
   description: string;
   features: string[];
@@ -13,14 +15,13 @@ export interface ExperienceCardProps {
 }
 
 export function ExperienceCard(
-  { title, description, features, image, variant }: ExperienceCardProps
+  { location, title, description, features, image, variant }: ExperienceCardProps
 ) {
-	console.log(image);
   return (
     <Card className={`p-4 flex ${variant === "horizontal" ? "flex-col lg:flex-row col-span-1 lg:col-span-3" : "flex-col"}`}>
       {/* Image Placeholder */}
-      <div className={`relative overflow-hidden rounded-2xl ${variant === "horizontal" ? "w-full lg:w-1/2 lg:mr-4 2xl:mr-20" : "w-full aspect-4/3"}`}>
-        <Image src={image} alt={title} className="object-cover" fill/>
+      <div className={`relative overflow-hidden rounded-2xl ${variant === "horizontal" ? "w-full aspect-4/3 lg:aspect-auto lg:w-1/2 lg:mr-4 2xl:mr-20" : "w-full aspect-4/3"}`}>
+        <Image src={image} alt={title} className="object-cover" sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" fill/>
       </div>
 
       {/* Content */}
@@ -60,8 +61,8 @@ export function ExperienceCard(
 
 				{/* Action Buttons */}
 				<div className="flex flex-col gap-4">
-					<Button>Забронировать</Button>
-        	<Button variant="outline">Подробнее</Button>
+					<OrderButton />
+					<Button asChild variant="outline"><a href={`#${location}`} aria-label={`Подробнее о ${title}`}>Подробнее</a></Button>
 				</div>
       </div>
     </Card>

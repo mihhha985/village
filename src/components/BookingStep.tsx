@@ -1,23 +1,26 @@
+"use client";
+
+import { LOCATIONS } from "@/src/lib/types/booking";
+import { useOrderModal } from "@/src/store/modal";
 import Image from "next/image"
 import { ChevronRight } from "lucide-react"
 import { FaTelegramPlane, FaWhatsapp } from "react-icons/fa";
 import { Avatar, AvatarFallback, AvatarImage } from "@/src/lib/ui/avatar"
 import { Button } from "@/src/lib/ui/button"
 import { Card } from "@/src/lib/ui/card"
+import Title from "@/src/components/ui/Title";
 
 export function BookingSteps() {
-  const locations = ["DeРевня. Простор", "DeРевня. Озеро", "DeРевня. City", "DeРевня. Longlife"]
+  const locations = Object.entries(LOCATIONS);
+  const showOrder = useOrderModal(state => state.show);
 
   return (
     <div className="mt-20">
       {/* Header */}
-       <div className="flex flex-col lg:flex-row justify-between mb-8 gap-y-4">
-        <h2 className="text-4xl xl:text-5xl w-full lg:w-[40%] leading-tight">
-          Как забронировать?
-        </h2>
-				<p className="self-end w-full lg:w-1/3">Мы продумали максимум для вашего удобства, в том числе процесс бронирования -- всего 3 простых шага!</p>
-      </div>
-
+      <Title
+				title="Как забронировать?"
+				subtitle="Мы продумали максимум для вашего удобства, в том числе процесс бронирования -- всего 3 простых шага!"
+			/>
       {/* Steps */}
       <div className="space-y-6">
         {/* Step 1 */}
@@ -33,7 +36,7 @@ export function BookingSteps() {
               </div>
               <div className="space-y-4">
                 <p className="text-xs sm:text-sm leading-relaxed">
-                  У каждой базы свой номерной фонд, рекомендуем посетить страницы 
+                  У каждой базы свой номерной фонд, рекомендуем посетить страницы
 									Баз отдыха, чтобы определиться, в первую очередь, с локацией и там ознакомиться с каталогом домов!
                 </p>
               </div>
@@ -41,14 +44,14 @@ export function BookingSteps() {
 
             {/* Right Content - Location List */}
             <div className="w-full flex flex-col gap-y-3">
-              {locations.map((location, index) => (
+              {locations.map(([key, location], index) => (
                 <Button
-                  className="group justify-between py-6 w-full"
+                  asChild className="group justify-between py-6 w-full"
                   variant="link"
 									key={index}
 								>
-                  <span className="ml-6 text-lg sm:text-xl font-light">{location}</span>
-                  <ChevronRight className="mr-6 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                  <a href={`#${key}`} aria-label={location}><span className="ml-6 text-lg sm:text-xl font-light">{location}</span>
+                  <ChevronRight className="mr-6 h-5 w-5 transition-transform group-hover:translate-x-1" /></a>
                 </Button>
               ))}
             </div>
@@ -66,29 +69,29 @@ export function BookingSteps() {
                 </div>
 								<h2 className="flex-1 text-xl sm:text-2xl lg:text-3xl font-light">Перейдите на страницу бронирования</h2>
               </div>
-              <div className="text-xs sm:text-smspace-y-4">
-                <p>Вы можете  перейти к бронированию конкретного дома из страницы соответствующей базы 
-								или воспользоваться общим модулем поиска по всем базам отдыха. 
+              <div className="text-xs sm:text-sm space-y-4">
+                <p>Вы можете  перейти к бронированию конкретного дома из страницы соответствующей базы
+								или воспользоваться общим модулем поиска по всем базам отдыха.
 								<br  />Дальше останется только следовать инструкции!</p>
               </div>
             </div>
 
             {/* Right Content - Calendar Preview */}
             <div className="w-full flex flex-col ">
-              <Image 
-								src="/calendar.png" 
-								alt="Booking Calendar" 
-								width={600} 
+              <Image
+								src="/calendar.png"
+								alt="Booking Calendar"
+								width={600}
 								height={400}
 								sizes="(max-width: 640px) 100vw, 300px"
 							/>
 
               {/* Link Below */}
               <Button
-                className="group w-full justify-between py-6 mt-5"
+                onClick={showOrder} aria-label="Открыть бронирование" className="group w-full justify-between py-6 mt-5"
                 variant="link"
 							>
-                <span className="ml-6 text-lg sm:text-xl font-light w-[200px] sm:w-full truncate">К общей странице бронирования</span>
+                <span className="ml-6 text-lg sm:text-xl font-light min-w-0 flex-1 truncate">К общей странице бронирования</span>
                 <ChevronRight className="mr-6 h-5 w-5 transition-transform group-hover:translate-x-1" />
               </Button>
             </div>
@@ -143,16 +146,10 @@ export function BookingSteps() {
 
                   {/* Contact Buttons */}
                   <div className="flex flex-col sm:flex-row gap-3">
-                    <Button variant="ghost" className="border border-white text-lg font-light leading-none">
-                      +7 (913) 777-77-77
-                    </Button>
+                    <Button asChild variant="ghost" className="border border-white text-lg font-light leading-none"><a href="tel:+79137777777" aria-label="Позвонить в службу заботы">+7 (913) 777-77-77</a></Button>
 										<div className="flex items-center justify-end gap-3">
-											<Button variant="ghost" size="icon" className="border border-white text-lg font-light leading-none">
-												<FaTelegramPlane className="h-5 w-5" />
-											</Button>
-											<Button variant="ghost" size="icon" className="border border-white text-lg font-light leading-none">
-												<FaWhatsapp className="h-5 w-5" />
-											</Button>
+											<Button disabled aria-label="Telegram — ссылка пока не настроена" variant="ghost" size="icon" className="border border-white text-lg font-light leading-none"><FaTelegramPlane className="h-5 w-5" /></Button>
+											<Button disabled aria-label="WhatsApp — ссылка пока не настроена" variant="ghost" size="icon" className="border border-white text-lg font-light leading-none"><FaWhatsapp className="h-5 w-5" /></Button>
 										</div>
                   </div>
                 </div>

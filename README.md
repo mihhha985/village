@@ -34,3 +34,22 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+
+## Проверка и приём заявок
+
+- `npm run lint` — проверка кода.
+- `npm test` — регрессионные тесты бронирования и обработки заявок (без внешней отправки).
+- `npm run build` и `npm start` — production-сборка и запуск.
+
+Скопируйте `.env.example` в `.env.local`. Для приёма заявок задайте серверную переменную
+`REQUESTS_WEBHOOK_URL` и, если требуется, `REQUESTS_WEBHOOK_TOKEN` (Bearer).
+Обработчик `/api/requests` проверяет данные и пересылает JSON с `type: booking` или
+`type: contact`. Даты передаются как `yyyy-MM-dd`, без сдвига часового пояса.
+Сервис должен возвращать HTTP 2xx только после приёма заявки. Автоматических повторов нет.
+Без настроенного адреса API возвращает 503, а форма сохраняет введённые данные и сообщает
+о недоступности. Внешняя доставка требует проверки с реальным сервисом.
+
+Для встроенной карты нужен действующий `NEXT_PUBLIC_YANDEX_MAPS_API_KEY`.
+При недоступности API адреса и ссылки на карту остаются доступны.
+Социальные кнопки без адресов отключены до предоставления реальных ссылок.
