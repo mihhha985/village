@@ -144,10 +144,12 @@ function Row({item, decrement, onUpdate}: RowType){
 	return (
 			<div className="space-y-4 mb-4">
 				<div className="flex items-center justify-between">
-					<h4>Номер {item.index}</h4>
+				<h4>Номер {item.index}</h4>
+				{item.index >= 2 &&
 					<Button
 						aria-label="Удалить номер" onClick={decrement}
 						variant="ghost" size={"sm"}>X</Button>
+				}
 				</div>
 				<div className="w-full flex items-center gap-4">
 					<div className="w-full space-y-2">

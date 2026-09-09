@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { Separator } from "@/src/lib/ui/separator";
 import { Card } from "@/src/lib/ui/card";
 import { Button } from "@/src/lib/ui/button";
@@ -62,7 +63,7 @@ export function ExperienceCard(
 				{/* Action Buttons */}
 				<div className="flex flex-col gap-4">
 					<OrderButton />
-					<Button asChild variant="outline"><a href={`#${location}`} aria-label={`Подробнее о ${title}`}>Подробнее</a></Button>
+					<Button asChild variant="outline"><Link href={`/${location}`} aria-label={`Подробнее о ${title}`}>Подробнее</Link></Button>
 				</div>
       </div>
     </Card>

@@ -1,6 +1,7 @@
 "use client";
 import  Link  from "next/link"
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 import { Button } from "@/src/lib/ui/button";
 import OrderButton from "@/src/components/ui/OrderButton";
 import { Menu, X } from "lucide-react";
@@ -17,6 +18,7 @@ const menuItems = [
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+	const pathname = usePathname();
 
   return (
     <>
@@ -39,8 +41,11 @@ export function Navbar() {
             </div>
             {/* Logo */}
             <div className="flex items-center">
-              <Link href="/" aria-label="DeРевня — главная" className="text-3xl sm:text-4xl xl:text-5xl font-logo text-foreground">
-                DeРевня
+								<Link
+									href="/"
+									aria-label="DeРевня — главная"
+									className={`text-3xl sm:text-4xl xl:text-5xl font-logo ${pathname === "/" ? "text-accent" : "text-foreground"}`}>
+                	DeРевня
               </Link>
             </div>
           </div>
@@ -48,9 +53,9 @@ export function Navbar() {
           <nav className="hidden lg:flex items-center space-x-4 xl:space-x-8">
             {menuItems.map((item, index) => (
               <Link
-                key={index}
-                href={item.href}
-                className="link"
+								key={index}
+								href={item.href}
+								className={`link ${pathname === item.href ? "text-primary/90" : ""}`}
               >
                 {item.label}
               </Link>

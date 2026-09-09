@@ -4,7 +4,7 @@ import { Button } from "@/src/lib/ui/button";
 import { Label } from "@/src/lib/ui/label";
 import { AlertCircle, X } from "lucide-react";
 import { useState } from "react";
-import { motion, AnimatePresence } from "motion/react"
+import { motion } from "motion/react"
 import {
   Dialog,
   DialogContent,
@@ -113,7 +113,6 @@ export function SearchBar() {
 				</Dialog>
       </div>
 			{/* Ошибки валидации */}
-			<AnimatePresence mode="wait">
       {validationErrors.length > 0 && (
         <motion.div
 					layout
@@ -138,7 +137,6 @@ export function SearchBar() {
           </motion.div>
         </motion.div>
       )}
-			</AnimatePresence>
     </div>
   );
 }
