@@ -1,4 +1,5 @@
 "use client";
+import { RevealSection } from "@/src/components/RevealSection";
 
 import Link from "next/link";
 import { useState, useEffect, useMemo } from "react";
@@ -88,7 +89,7 @@ export function LocationsSection() {
   }, []);
 
   return (
-    <section className="type-section bg-card">
+    <RevealSection className="type-section bg-card">
       <div className="container">
         <Title
 					title="Неповторимый опыт в каждой поездке"
@@ -174,6 +175,6 @@ export function LocationsSection() {
           </div>
         </div>
       </div>
-    </section>
+    </RevealSection>
   );
 }

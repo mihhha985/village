@@ -1,5 +1,5 @@
 import { parseISO } from "date-fns";
-import { ContactRequestSchema, OrderDataSchema } from "@/src/lib/validations/booking";
+import { ContactRequestSchema, FeedbackRequestSchema, OrderDataSchema } from "@/src/lib/validations/booking";
 
 const parseDate = (value: unknown) => typeof value === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value) ? parseISO(value) : undefined;
 
@@ -10,12 +10,14 @@ export async function receiveRequest(request: Request): Promise<Response> {
   } catch {
     return Response.json({ error: "Некорректный JSON" }, { status: 400 });
   }
-  if (!body || typeof body !== "object" || !["booking", "contact"].includes(body.type)) {
+  if (!body || typeof body !== "object" || !["booking", "contact", "feedback"].includes(body.type)) {
     return Response.json({ error: "Неизвестный тип заявки" }, { status: 400 });
   }
   const result = body.type === "booking"
     ? OrderDataSchema.safeParse({ ...body, checkIn: parseDate(body.checkIn), checkOut: parseDate(body.checkOut) })
-    : ContactRequestSchema.safeParse({ ...body, date: parseDate(body.date) });
+    : body.type === "contact"
+      ? ContactRequestSchema.safeParse({ ...body, date: parseDate(body.date) })
+      : FeedbackRequestSchema.safeParse(body);
   if (!result.success) {
     return Response.json({ error: result.error.issues[0].message }, { status: 400 });
   }
@@ -29,7 +31,9 @@ export async function receiveRequest(request: Request): Promise<Response> {
     if (process.env.REQUESTS_WEBHOOK_TOKEN) headers.Authorization = `Bearer ${process.env.REQUESTS_WEBHOOK_TOKEN}`;
     const data = body.type === "booking"
       ? { ...result.data, checkIn: body.checkIn, checkOut: body.checkOut }
-      : { ...result.data, date: body.date };
+      : body.type === "contact"
+        ? { ...result.data, date: body.date }
+        : result.data;
     const response = await fetch(url, {
       method: "POST",
       headers,

@@ -201,6 +201,8 @@
   --locationHeroRatio: 5 / 4;
   --locationLightboxWidth: 56rem;
   --locationLightboxHeight: 55dvh;
+  --locationSliderGap: 1rem;
+  --locationSlideWidth: 88%;
 }
 
 .location-page { padding-top: var(--locationPageTop); }
@@ -231,3 +233,140 @@
 .location-enlarged-photo { width: 100%; height: auto; max-height: var(--locationLightboxHeight); object-fit: contain; }
 #gallery { scroll-margin-top: 2rem; }
 .information-steps { list-style: decimal; }
+
+.location-slider { position: relative; }
+.location-slider-track {
+  display: flex;
+  gap: var(--locationSliderGap);
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scroll-behavior: smooth;
+  scroll-snap-type: inline mandatory;
+  scroll-padding-inline: 0;
+  padding-bottom: 0.75rem;
+}
+.location-slider-track:focus-visible { outline: 2px solid var(--primary); outline-offset: 0.25rem; }
+.location-slide { flex: 0 0 var(--locationSlideWidth); scroll-snap-align: start; }
+.location-slider-counter { color: var(--muted-foreground); font-size: var(--locationSmall); }
+
+@media (min-width: 640px) {
+  :root { --locationSlideWidth: calc((100% - var(--locationSliderGap)) / 2); }
+}
+
+@media (min-width: 1024px) {
+  :root { --locationSlideWidth: calc((100% - (var(--locationSliderGap) * 2)) / 3); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .location-slider-track { scroll-behavior: auto; }
+}
+
+:root {
+  --contactsHero: var(--card);
+  --contactsSection: rgba(28, 28, 28, 1);
+  --contactsDark: rgba(14, 14, 14, 1);
+  --contactsOnline: rgba(49, 224, 59, 1);
+  --contactsOverlay: linear-gradient(180deg, rgba(17, 17, 17, 0.18) 0%, rgba(17, 17, 17, 0.04) 42%, rgba(17, 17, 17, 0.86) 100%);
+  --contactsTitle: clamp(2.8rem, 5vw, 4.25rem);
+  --contactsSectionTitle: clamp(2.25rem, 4vw, 3.35rem);
+  --contactsCardTitle: clamp(1.25rem, 2vw, 1.75rem);
+  --contactsBody: 0.95rem;
+  --contactsSmall: 0.78rem;
+}
+
+.contacts-page { background: var(--background); }
+.contacts-hero { background: var(--contactsHero); border: 1px solid var(--border); border-radius: calc(var(--radius) * 3); }
+.contacts-hero-image { opacity: 0.56; }
+.contacts-title, .contacts-section-title, .contacts-card-title { font-weight: 200; line-height: 1.08; }
+.contacts-title { font-size: var(--contactsTitle); }
+.contacts-section-title { font-size: var(--contactsSectionTitle); }
+.contacts-card-title { font-size: var(--contactsCardTitle); }
+.contacts-copy { color: var(--muted-foreground); font-size: var(--contactsBody); line-height: 1.25; }
+.contacts-small { color: var(--muted-foreground); font-size: var(--contactsSmall); line-height: 1.25; }
+.contacts-dark-card { background: var(--contactsDark); border-radius: calc(var(--radius) * 3); }
+.contacts-online { background: var(--contactsOnline); border: 2px solid var(--contactsDark); }
+.contacts-icon-button { border: 1px solid var(--muted-foreground); border-radius: 999px; }
+.contacts-phone-button { min-width: 12rem; background: transparent; }
+.contacts-locations { background: var(--contactsSection); }
+.contacts-map img { filter: grayscale(1) brightness(0.62) contrast(1.15); }
+.contacts-location-card { background: var(--contactsDark); border-radius: calc(var(--radius) * 3); }
+.contacts-location-card[data-state="open"] { background: var(--primary); color: var(--primary-foreground); }
+.contacts-location-card[data-state="open"] .contacts-copy,
+.contacts-location-card[data-state="open"] .contacts-small { color: var(--primary-foreground); }
+.contacts-location-trigger { font-size: var(--contactsCardTitle); font-weight: 200; }
+.contacts-location-number { border: 1px solid currentColor; font-size: var(--contactsSmall); }
+.contacts-coordinate-row { border-top: 1px solid color-mix(in srgb, currentColor 25%, transparent); border-bottom: 1px solid color-mix(in srgb, currentColor 25%, transparent); }
+.contacts-feedback-image, .contacts-form-card { border-radius: calc(var(--radius) * 3); }
+.contacts-photo-overlay { background: var(--contactsOverlay); }
+.contacts-form-card { background: var(--card); }
+.contacts-form-control { background: var(--contactsDark); border: 0; border-radius: 999px; color: var(--foreground); }
+textarea.contacts-form-control { border-radius: calc(var(--radius) * 3); }
+.contacts-policy { color: var(--muted-foreground); font-size: var(--contactsSmall); line-height: 1.25; }
+
+:root {
+  --aboutTitle: clamp(2.5rem, 4.2vw, 3.5rem);
+  --aboutCardTitle: clamp(1.65rem, 2.8vw, 2.4rem);
+  --aboutBuilderTitle: clamp(2.3rem, 4vw, 3.4rem);
+  --aboutBody: clamp(0.95rem, 1.4vw, 1.1rem);
+  --aboutSmall: 0.85rem;
+  --aboutCard: rgba(25, 25, 25, 1);
+  --aboutButton: rgba(13, 13, 13, 1);
+  --aboutBuilderText: rgba(18, 18, 18, 1);
+  --aboutPhone: rgba(13, 13, 13, 1);
+  --aboutPhoneOverlay: linear-gradient(180deg, rgba(13, 13, 13, 0.96) 0%, rgba(13, 13, 13, 0.78) 32%, rgba(13, 13, 13, 0.12) 68%, rgba(13, 13, 13, 0.94) 100%);
+}
+
+.about-page { background: var(--background); }
+.about-eyebrow { color: var(--muted-foreground); font-size: var(--aboutSmall); text-transform: uppercase; }
+.about-title, .about-card-title, .about-builder-title { font-weight: 200; line-height: 1.08; }
+.about-title { font-size: var(--aboutTitle); }
+.about-card-title { font-size: var(--aboutCardTitle); }
+.about-copy { color: var(--muted-foreground); font-size: var(--aboutBody); line-height: 1.35; }
+.about-divider { border-top: 1px solid var(--border); }
+.about-team-photo, .about-card-image { object-fit: cover; border-radius: calc(var(--radius) * 2.5); }
+.about-team-photo { aspect-ratio: 16 / 9; }
+.about-card { display: flex; flex-direction: column; background: var(--aboutCard); border: 1px solid var(--border); border-radius: calc(var(--radius) * 3); }
+.about-card-image { margin-top: auto; aspect-ratio: 2.15 / 1; }
+.about-link-button { background: var(--aboutButton); color: var(--foreground); border-radius: calc(var(--radius) * 2.5); font-size: var(--aboutBody); }
+.about-link-button:hover { color: var(--primary); }
+.about-builder { background: var(--primary); color: var(--aboutBuilderText); border-radius: calc(var(--radius) * 3) calc(var(--radius) * 3) 0 0; }
+.about-builder-title { font-size: var(--aboutBuilderTitle); }
+.about-builder-copy { color: var(--aboutBuilderText); font-size: var(--aboutBody); line-height: 1.35; }
+.about-builder-divider { border-top: 1px solid color-mix(in srgb, var(--aboutBuilderText) 18%, transparent); }
+.about-builder-caption { color: color-mix(in srgb, var(--aboutBuilderText) 70%, transparent); font-size: var(--aboutSmall); }
+.about-phone { background: var(--aboutPhone); border: 4px solid var(--aboutPhone); border-radius: 3.5rem 3.5rem 0 0; color: var(--foreground); box-shadow: 0 0 0 1px color-mix(in srgb, var(--foreground) 18%, transparent); }
+.about-phone-speaker { background: var(--border); }
+.about-phone-logo { font-family: var(--font-logo); font-size: 3.5rem; font-weight: 400; line-height: 0.8; letter-spacing: 0.08em; }
+.about-phone-group { color: var(--muted-foreground); font-size: var(--aboutSmall); letter-spacing: 0.15em; }
+.about-phone-title { font-size: var(--aboutBody); font-weight: 400; text-transform: uppercase; }
+.about-phone-photo { object-position: center bottom; }
+.about-phone-overlay { background: var(--aboutPhoneOverlay); }
+.about-phone-caption { color: var(--muted-foreground); font-size: 0.72rem; line-height: 1.2; }
+
+@media (min-width: 1024px) {
+  .about-builder > div:first-child { max-width: calc(100% - 20rem); }
+}
+
+/* Shared, restrained entrance motion across every page. */
+.reveal-word-mask {
+  display: inline-block;
+  overflow: clip;
+  vertical-align: bottom;
+  padding-block: 0.12em;
+  margin-block: -0.12em;
+}
+
+[data-reveal-word] {
+  display: inline-block;
+  transform-origin: left bottom;
+}
+
+:root {
+  --revealDistance: 24px;
+}
+
+@media (max-width: 767px) {
+  :root {
+    --revealDistance: 16px;
+  }
+}

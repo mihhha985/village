@@ -1,10 +1,11 @@
+import { RevealSection } from "@/src/components/RevealSection";
 import Image from "next/image";
 import { BookingSteps } from "./BookingStep";
 import Title from "@/src/components/ui/Title";
 
 export function HowToBookSection() {
   return (
-    <section className="type-section">
+    <RevealSection className="type-section">
       <div className="container">
         <Title 
 					variant="lg"
@@ -18,6 +19,6 @@ export function HowToBookSection() {
 
 				<BookingSteps />
       </div>
-    </section>
+    </RevealSection>
   );
 }

@@ -1,66 +1,90 @@
+import { RevealText } from "@/src/components/RevealText";
+import { RevealSection } from "@/src/components/RevealSection";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
-import { InformationPage } from "@/src/components/InformationPage";
-import OrderButton from "@/src/components/ui/OrderButton";
+import { ArrowRight } from "lucide-react";
+import { Navbar } from "@/src/components/Navbar";
+import { Footer } from "@/src/components/Footer";
+import { OrderModal } from "@/src/components/OrderModal";
+import { AboutBookingButton } from "@/src/components/AboutBookingButton";
 import { Button } from "@/src/lib/ui/button";
-import { LOCATION_PAGES } from "@/src/lib/locations";
+import { Card } from "@/src/lib/ui/card";
 
 export function AboutPage() {
   return (
-    <InformationPage
-      title="О DeРевне"
-      introduction="Быть ближе к природе и друг к другу. DeРевня — это четыре локации для загородного отдыха, в котором есть место комфорту, тишине и вашим собственным планам."
-    >
-      <section className="container pb-12 lg:pb-20" aria-labelledby="about-idea">
-        <div className="grid lg:grid-cols-2 items-center gap-8 lg:gap-16">
-          <figure className="space-y-3">
-            <Image src="/foto4.jpg" alt="Деревянный дом с освещённой террасой среди берёз" width={612} height={327} priority sizes="(max-width: 1024px) 100vw, 50vw" className="location-hero-photo" />
-            <figcaption className="location-caption">Атмосфера DeРевни · иллюстрация из материалов сайта</figcaption>
-          </figure>
-          <div className="space-y-6">
-            <p className="location-eyebrow">Наша идея</p>
-            <h2 id="about-idea" className="location-subheading">Свобода выбирать и быть собой</h2>
-            <div className="location-copy space-y-4">
-              <p>У каждого свой способ отдыхать. Кому-то нужны выходные с семьёй, кому-то — поездка вдвоём, а кому-то хочется остаться за городом подольше. Поэтому у DeРевни четыре разных направления.</p>
-              <p>Нас объединяет простая идея: сменить привычную обстановку, не отказываясь от домашнего уюта. Проводить больше времени на свежем воздухе, собираться за одним столом и выбирать свой ритм.</p>
+    <>
+      <Navbar />
+      <main className="about-page pt-30 lg:pt-38">
+        <RevealSection className="container pb-10 lg:pb-14" aria-labelledby="about-title">
+          <div className="grid items-center gap-8 lg:grid-cols-[1fr_1.05fr] lg:gap-12">
+            <div>
+              <p className="about-eyebrow mb-6">О компании</p>
+              <h1 id="about-title" className="about-title"><RevealText>Идти в ногу со временем</RevealText></h1>
+              <div className="about-copy mt-7 space-y-6">
+                <p>Мир меняется быстрее, чем когда-либо. Мы верим, что настоящий прогресс — это не только скорость, но и умение вовремя остановиться. Именно поэтому так важно иметь место, где можно замедлиться, услышать себя и восстановить силы.</p>
+                <p className="about-divider pt-6">В DeРевне природа остаётся источником энергии, а технологии — инструментом, который делает отдых проще и комфортнее.</p>
+              </div>
             </div>
-            <Button asChild variant="outline"><a href="#our-locations" aria-label="Посмотреть четыре локации DeРевни">Выбрать своё место</a></Button>
+            <Image src="/about-team.png" alt="Команда DeРевни у загородного деревянного дома" width={1536} height={1024} priority sizes="(min-width: 1024px) 50vw, 100vw" className="about-team-photo w-full" />
           </div>
-        </div>
-      </section>
-      <section id="our-locations" className="location-panel py-12 lg:py-20" aria-labelledby="locations-title">
-        <div className="container">
-          <h2 id="locations-title" className="location-subheading mb-4">Четыре локации. Ваш сценарий отдыха</h2>
-          <p className="location-copy mb-8 max-w-3xl">Познакомьтесь с каждым направлением и выберите то, что подходит вашим планам.</p>
-          <div className="grid md:grid-cols-2 gap-6">
-            {Object.entries(LOCATION_PAGES).map(([key, location]) => (
-              <Link key={key} href={`/${key}`} className="location-related p-6 lg:p-8 space-y-4">
-                <h3 className="flex items-center justify-between gap-4">{location.name}<ArrowUpRight size={20} aria-hidden="true" /></h3>
-                <p className="location-eyebrow">{location.tagline}</p>
-                <p className="location-copy">{location.introduction}</p>
-              </Link>
-            ))}
+        </RevealSection>
+
+        <RevealSection className="container pb-10 lg:pb-14" aria-label="Подход DeРевни">
+          <div className="grid gap-5 lg:grid-cols-2">
+            <Card className="about-card border-none p-5 md:p-8">
+              <div>
+                <h2 className="about-card-title">Сфокусируйтесь<br />на действительно важном</h2>
+                <p className="about-copy mt-5">За счёт современных интерьеров наши пространства помогают сосредоточиться на главном: природе, тишине и времени рядом с близкими людьми.</p>
+              </div>
+              <Image src="/longlife/Frame%201948756810.jpg" alt="Современный интерьер дома DeРевни" width={1280} height={716} sizes="(min-width: 1024px) 45vw, 100vw" className="about-card-image mt-8 w-full" />
+              <Button asChild variant="link" className="about-link-button mt-3 w-full justify-between px-5">
+                <Link href="/contacts" aria-label="Связаться с DeРевней">Связаться с нами<ArrowRight className="size-5" aria-hidden="true" /></Link>
+              </Button>
+            </Card>
+
+            <Card className="about-card border-none p-5 md:p-8">
+              <div>
+                <h2 className="about-card-title">Позвольте технологиям<br />сделать всё за вас</h2>
+                <p className="about-copy mt-5">Онлайн-бронирование занимает всего пару минут, а система автоматического заселения позволяет приехать в удобное время и сразу оказаться в доме.</p>
+              </div>
+              <Image src="/calendar.png" alt="Интерфейс выбора дат и бронирования DeРевни" width={488} height={208} sizes="(min-width: 1024px) 45vw, 100vw" className="about-card-image mt-8 w-full" />
+              <AboutBookingButton />
+            </Card>
           </div>
-        </div>
-      </section>
-      <section className="container py-12 lg:py-20" aria-labelledby="trip-title">
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16">
-          <h2 id="trip-title" className="location-subheading">От идеи до поездки</h2>
-          <div className="space-y-6">
-            <ol className="information-steps location-copy space-y-5 pl-6">
-              <li>Выберите локацию и познакомьтесь с её описанием.</li>
-              <li>Укажите даты поездки, количество взрослых и детей в форме бронирования.</li>
-              <li>Оставьте контактные данные для согласования дома, стоимости и условий проживания.</li>
-            </ol>
-            <p className="location-caption">Отправка заявки не подтверждает бронь автоматически. Доступность размещения и дополнительные услуги уточняются для выбранных дат.</p>
-            <div className="flex flex-wrap gap-3">
-              <OrderButton />
-              <Button asChild variant="outline"><Link href="/contacts" aria-label="Перейти на страницу контактов">Связаться с нами</Link></Button>
+        </RevealSection>
+
+        <RevealSection className="container pb-10 lg:pb-0" aria-labelledby="builder-title">
+          <div className="about-builder relative overflow-hidden p-6 md:p-8 lg:min-h-108 lg:p-10">
+            <div className="relative z-1 max-w-2xl">
+              <h2 id="builder-title" className="about-builder-title">Строим дома.<br />Создаём впечатления</h2>
+              <div className="about-builder-copy mt-6 space-y-5">
+                <p>История DeРевни началась с нашей 15-летней экспертизы в загородном девелопменте. Мы создаём долговечные и эстетичные дома, куда хочется возвращаться снова и снова.</p>
+                <p>Благодаря нашим возможностям и технологиям, отточенным за годы, мы формируем целую экосистему отдыха в Ленобласти на базе проверенных строительных решений.</p>
+              </div>
+              <div className="about-builder-divider mt-6 flex flex-col items-start gap-4 pt-5 sm:flex-row sm:items-center">
+                <Button asChild variant="secondary" className="px-6">
+                  <Link href="/contacts" aria-label="Узнать подробнее о строительных проектах">Узнать подробнее<ArrowRight className="size-4" aria-hidden="true" /></Link>
+                </Button>
+                <p className="about-builder-caption">о строительных проектах VDK Group</p>
+              </div>
+            </div>
+
+            <div className="about-phone relative mx-auto mt-8 h-105 w-full max-w-74 overflow-hidden px-5 pt-10 lg:absolute lg:right-10 lg:bottom-0 lg:mt-0 lg:h-[94%]">
+              <span className="about-phone-speaker absolute top-4 left-1/2 z-2 h-1 w-16 -translate-x-1/2 rounded-full" />
+              <div className="relative z-2 text-center">
+                <p className="about-phone-logo">VDK</p>
+                <p className="about-phone-group">GROUP</p>
+                <p className="about-phone-title mt-5">Строим будущее сегодня</p>
+              </div>
+              <Image src="/foto3.jpg" alt="Современный загородный дом строительной группы" fill sizes="296px" className="about-phone-photo object-cover" />
+              <div className="about-phone-overlay absolute inset-0 z-1" />
+              <p className="about-phone-caption absolute right-5 bottom-7 left-5 z-2 text-center">Каждый дом отражает наш подход к качеству, дизайну и философии пространства</p>
             </div>
           </div>
-        </div>
-      </section>
-    </InformationPage>
+        </RevealSection>
+      </main>
+      <Footer />
+      <OrderModal />
+    </>
   );
 }

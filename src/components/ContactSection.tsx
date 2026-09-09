@@ -1,4 +1,5 @@
 "use client"
+import { RevealSection } from "@/src/components/RevealSection";
 
 import { useRef, useState } from "react"
 import { useForm } from "react-hook-form"
@@ -68,10 +69,10 @@ export function ContactSection() {
   }
 
   return (
-    <section id="contacts" className="type-section">
+    <RevealSection id="contacts" className="type-section">
       <div className="container">
         {/* Main booking section */}
-        <div className="mb-20">
+        <div data-reveal-group className="mb-20">
 					<Title
 						title="Бронирование в одно касание"
 						subtitle="Выберите удобные даты и заполните форму заявки. Мы вам перезвоним!"
@@ -219,6 +220,6 @@ export function ContactSection() {
           </div>
         </div>
       </div>
-    </section>
+    </RevealSection>
   )
 }

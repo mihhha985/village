@@ -21,7 +21,7 @@ export function ExperienceCard(
   return (
     <Card className={`p-4 flex ${variant === "horizontal" ? "flex-col lg:flex-row col-span-1 lg:col-span-3" : "flex-col"}`}>
       {/* Image Placeholder */}
-      <div className={`relative overflow-hidden rounded-2xl ${variant === "horizontal" ? "w-full aspect-4/3 lg:aspect-auto lg:w-1/2 lg:mr-4 2xl:mr-20" : "w-full aspect-4/3"}`}>
+      <div data-reveal-image-frame className={`relative overflow-hidden rounded-2xl ${variant === "horizontal" ? "w-full aspect-4/3 lg:aspect-auto lg:w-1/2 lg:mr-4 2xl:mr-20" : "w-full aspect-4/3"}`}>
         <Image src={image} alt={title} className="object-cover" sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" fill/>
       </div>
 

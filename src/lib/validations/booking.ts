@@ -36,6 +36,11 @@ export const ContactDataSchema = z.object({
   email: z.string().trim().email("Некорректный email адрес"),
 });
 export const ContactRequestSchema = ContactDataSchema.extend({ date: checkInSchema });
+export const FeedbackRequestSchema = z.object({
+  name: ContactDataSchema.shape.name,
+  phone: ContactDataSchema.shape.phone,
+  message: z.string().trim().min(5, "Сообщение должно содержать минимум 5 символов").max(1000, "Сообщение слишком длинное"),
+});
 export const OrderDataSchema = z.object({
   ...bookingFields,
   ...ContactDataSchema.shape,

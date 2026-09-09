@@ -1,3 +1,4 @@
+import { RevealSection } from "@/src/components/RevealSection";
 import { ExperienceCard, ExperienceCardProps } from "@/src/components/ExperianceCard";
 import Title from "@/src/components/ui/Title";
 
@@ -42,7 +43,7 @@ const experiences: ExperienceCardProps[] = [
 
 export function ExperiencesSection() {
   return (
-    <section id="about" className="type-section">
+    <RevealSection id="about" className="type-section">
       <div className="container">
         <Title
 					title="Неповторимый опыт в каждой поездке"
@@ -58,6 +59,6 @@ export function ExperiencesSection() {
           ))}
         </div>
       </div>
-    </section>
+    </RevealSection>
   );
 }

@@ -1,3 +1,4 @@
+import { RevealSection } from "@/src/components/RevealSection";
 import { Button } from "@/src/lib/ui/button";
 import Link from "next/link";
 import { IoLogoVk } from "react-icons/io5";
@@ -6,7 +7,7 @@ import { FaTelegramPlane, FaWhatsapp } from "react-icons/fa";
 
 export function Footer() {
   return (
-		<footer className="bg-card">
+		<RevealSection as="footer" className="bg-card">
       <div className="container mx-auto py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
           {/* Brand and Social Section */}
@@ -101,6 +102,6 @@ export function Footer() {
           </div>
         </div>
       </div>
-    </footer>
+    </RevealSection>
   );
 }

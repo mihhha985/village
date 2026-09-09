@@ -1,5 +1,6 @@
 import { format } from "date-fns";
-import type { OrderDataType } from "@/src/lib/validations/booking";
+import type { z } from "zod";
+import type { FeedbackRequestSchema, OrderDataType } from "@/src/lib/validations/booking";
 
 type ContactRequest = { name: string; phone: string; email: string; date: Date };
 
@@ -16,5 +17,18 @@ export async function submitRequest(data: OrderDataType | ContactRequest) {
   const result = await response.json();
   if (!response.ok || result.success !== true) {
     throw new Error(result.error || "Не удалось отправить заявку. Попробуйте позже.");
+  }
+}
+
+export async function submitFeedbackRequest(data: z.infer<typeof FeedbackRequestSchema>) {
+  const response = await fetch("/api/requests", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ type: "feedback", ...data }),
+    signal: AbortSignal.timeout(20000),
+  });
+  const result = await response.json();
+  if (!response.ok || result.success !== true) {
+    throw new Error(result.error || "Не удалось отправить сообщение. Попробуйте позже.");
   }
 }

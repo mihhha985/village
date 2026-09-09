@@ -1,4 +1,5 @@
 "use client"
+import { RevealSection } from "@/src/components/RevealSection";
 
 import type React from "react"
 import { useState, useEffect, useRef } from "react"
@@ -147,7 +148,7 @@ export function PlansSection() {
   }
 
   return (
-    <section className="type-section">
+    <RevealSection className="type-section">
       <div className="container">
         {/* Header */}
         <Title
@@ -243,6 +244,6 @@ export function PlansSection() {
           </div>
         </div>
       </div>
-    </section>
+    </RevealSection>
   )
 }
