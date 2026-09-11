@@ -3,8 +3,6 @@ import { RevealSection } from "@/src/components/RevealSection";
 import Image from "next/image";
 import Link from "next/link";
 import { Clock3, Copy, Mail, Phone, WalletCards } from "lucide-react";
-import { FaTelegramPlane, FaWhatsapp } from "react-icons/fa";
-import { IoLogoVk } from "react-icons/io5";
 import { Navbar } from "@/src/components/Navbar";
 import { Footer } from "@/src/components/Footer";
 import { OrderModal } from "@/src/components/OrderModal";
@@ -13,6 +11,7 @@ import { YandexMap } from "@/src/components/YandexMap";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/src/lib/ui/accordion";
 import { Button } from "@/src/lib/ui/button";
 import { LOCATION_COORDINATES, type LocationKey } from "@/src/lib/types/booking";
+import { SocialLinks } from "@/src/components/SocialLinks";
 
 const PHONE = "+7 (913) 777-77-77";
 const EMAIL = "Derevny@yandex.com";
@@ -27,7 +26,7 @@ const locations: Array<{
 }> = [
   {
     id: "city",
-    name: "DeРевня. City",
+    name: "TheVillage. City",
     description: "В черте города, в Новосаратовке — отдых с удобствами рядом с домом: дома, баня и бассейн без долгих поездок.",
     coordinates: "59.840072, 30.532057",
     distance: "10 минут на машине от КАД",
@@ -35,7 +34,7 @@ const locations: Array<{
   },
   {
     id: "ozero",
-    name: "DeРевня. Озеро",
+    name: "TheVillage. Озеро",
     description: "Тихий отдых у воды для неспешных выходных, прогулок и времени с близкими.",
     coordinates: "60.150000, 29.950000",
     distance: "около 40 минут от города",
@@ -43,7 +42,7 @@ const locations: Array<{
   },
   {
     id: "prostor",
-    name: "DeРевня. Простор",
+    name: "TheVillage. Простор",
     description: "Просторная загородная локация для семейных поездок и отдыха большой компанией.",
     coordinates: "60.720000, 28.750000",
     distance: "около 2 часов от города",
@@ -51,31 +50,13 @@ const locations: Array<{
   },
   {
     id: "longlife",
-    name: "DeРевня. Longlife",
+    name: "TheVillage. Longlife",
     description: "Формат для продолжительного проживания в спокойном ритме рядом с природой.",
     coordinates: "60.550000, 29.770000",
     distance: "около 1,5 часов от города",
     price: "стоимость по запросу",
   },
 ];
-
-const socialButtons = [
-  { label: "Telegram", icon: FaTelegramPlane },
-  { label: "WhatsApp", icon: FaWhatsapp },
-  { label: "ВКонтакте", icon: IoLogoVk },
-];
-
-function SocialButtons() {
-  return (
-    <div className="flex gap-3">
-      {socialButtons.map(({ label, icon: Icon }) => (
-        <Button key={label} disabled variant="ghost" size="icon" aria-label={`${label} — ссылка пока не настроена`} title="Ссылка пока не настроена" className="contacts-icon-button">
-          <Icon className="size-5" />
-        </Button>
-      ))}
-    </div>
-  );
-}
 
 export function ContactsPage() {
   const markers = locations.map((location, index) => ({
@@ -101,7 +82,7 @@ export function ContactsPage() {
                     <Link href={`mailto:${EMAIL}`} className="flex items-center gap-3 hover:text-primary"><Mail className="size-5" aria-hidden="true" /> {EMAIL}</Link>
                     <p className="flex items-center gap-3"><Clock3 className="size-5" aria-hidden="true" /> с 9:00 до 18:00 ПН–ПТ</p>
                   </div>
-                  <Image src="/contacts-city.png" alt="Иллюстрация домов DeРевни на фоне города" width={644} height={365} priority className="mt-5 w-full lg:hidden" />
+                  <Image src="/contacts-city.png" alt="Иллюстрация домов TheVillage на фоне города" width={644} height={365} priority className="mt-5 w-full lg:hidden" />
                 </div>
                 <div className="max-w-2xl">
                   <h2 className="contacts-card-title mb-4">Информация о компании</h2>
@@ -125,13 +106,12 @@ export function ContactsPage() {
                   </div>
                   <div className="mt-5 flex flex-wrap items-center gap-3">
                     <Button asChild variant="outline" className="contacts-phone-button"><Link href="tel:+79137777777" aria-label={`Позвонить по номеру ${PHONE}`}>{PHONE}</Link></Button>
-                    <Button disabled variant="ghost" size="icon" aria-label="WhatsApp — ссылка пока не настроена" className="contacts-icon-button"><FaWhatsapp className="size-5" /></Button>
-                    <Button disabled variant="ghost" size="icon" aria-label="Telegram — ссылка пока не настроена" className="contacts-icon-button"><FaTelegramPlane className="size-5" /></Button>
+                    <SocialLinks services={["whatsapp", "telegram"]} />
                   </div>
                 </article>
                 <article className="contacts-dark-card p-5">
                   <h2 className="contacts-card-title mb-4">Мессенджеры и соц. сети</h2>
-                  <SocialButtons />
+                  <SocialLinks services={["telegram", "whatsapp", "vk"]} />
                 </article>
               </div>
             </div>
@@ -169,7 +149,7 @@ export function ContactsPage() {
         <RevealSection className="container py-10 lg:py-14" aria-labelledby="feedback-title">
           <div className="grid gap-5 lg:grid-cols-[0.78fr_1.22fr]">
             <article className="contacts-feedback-image relative min-h-110 overflow-hidden p-7 md:min-h-125">
-              <Image src="/foto2.jpg" alt="Территория базы отдыха DeРевня" fill sizes="(min-width: 1024px) 40vw, 100vw" className="object-cover" />
+              <Image src="/foto2.jpg" alt="Территория базы отдыха TheVillage" fill sizes="(min-width: 1024px) 40vw, 100vw" className="object-cover" />
               <div className="contacts-photo-overlay absolute inset-0" />
               <div className="relative z-1 flex h-full min-h-96 flex-col justify-between">
                 <div><p className="contacts-small">Форма обратной связи</p><h2 id="feedback-title" className="contacts-section-title mt-5">Всегда на связи</h2></div>

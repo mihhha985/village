@@ -3,7 +3,7 @@ import { LocationPage } from "@/src/components/LocationPage";
 import { LOCATION_PAGES } from "@/src/lib/locations";
 
 export const metadata: Metadata = {
-  title: `${LOCATION_PAGES.ozero.name} — отдых в DeРевне`,
+  title: `${LOCATION_PAGES.ozero.name} — отдых в TheVillage`,
   description: LOCATION_PAGES.ozero.introduction,
 };
 

@@ -2,7 +2,7 @@
 
 ## 📋 Обзор
 
-Реализована интерактивная карта с отображением локаций баз отдыха DeРевня с использованием:
+Реализована интерактивная карта с отображением локаций баз отдыха TheVillage с использованием:
 - **Yandex Maps JavaScript API 3.0**
 - **shadcn/ui Accordion** для списка локаций
 - **React State** для синхронизации карты и аккордеона
@@ -312,4 +312,4 @@ export const LOCATION_COORDINATES: Record<LocationKey, LocationCoordinates> = {
 
 **Дата создания:** 30 октября 2025  
 **Версия:** 1.0  
-**Автор:** DeРевня Development Team
+**Автор:** TheVillage Development Team

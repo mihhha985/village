@@ -95,7 +95,7 @@ export function LocationGallery({ photos, description = "Иллюстрации 
           if (event.key === "ArrowLeft") { event.preventDefault(); changePhoto(-1); }
           if (event.key === "ArrowRight") { event.preventDefault(); changePhoto(1); }
         }}>
-          <DialogTitle className="pr-8">Атмосфера DeРевни</DialogTitle>
+          <DialogTitle className="pr-8">Атмосфера TheVillage</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
           {selected !== null && <>
             <Image src={photos[selected].src} alt={photos[selected].alt} width={1000} height={680} className="location-enlarged-photo" />

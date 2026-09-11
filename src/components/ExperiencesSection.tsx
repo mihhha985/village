@@ -5,7 +5,7 @@ import Title from "@/src/components/ui/Title";
 const experiences: ExperienceCardProps[] = [
 	{
 		location: "prostor",
-		title: "DeРевня Простор",
+		title: "TheVillage Простор",
 		description:
 			"Современный дом с просторной террасой и бассейном. Идеально для семейного отдыха и встреч с друзьями.",
 		features: ["Природа", "Бассейн", "Терраса", "Wi-Fi"],
@@ -14,7 +14,7 @@ const experiences: ExperienceCardProps[] = [
 	},
 	{
 		location: "ozero",
-		title: "DeРевня Озеро",
+		title: "TheVillage Озеро",
 		description:
 			"Коттедж у воды с сауной и панорамными окнами. Романтичный отдых для двоих в окружении природы.",
 		features: ["Озеро", "Сауна", "Романтика", "Природа"],
@@ -23,7 +23,7 @@ const experiences: ExperienceCardProps[] = [
 	},
 	{
 		location: "city",
-		title: "DeРевня City",
+		title: "TheVillage City",
 		description:
 			"Современный дом у города для комфортного отдыха. Все удобства цивилизации в окружении природы.",
 		features: ["Город", "Комфорт", "Удобства", "Доступность"],
@@ -32,7 +32,7 @@ const experiences: ExperienceCardProps[] = [
 	},
 	{
 		location: "longlife",
-		title: "DеРевня. Longlife",
+		title: "TheVillage. Longlife",
 		description:
 			"Четыре приватных дома для долгосрочного проживания — выбор для тех, кто ценит уединение и стабильный комфорт.",
 		features: ["Город", "Комфорт", "Удобства", "Доступность", "Wi-Fi"],

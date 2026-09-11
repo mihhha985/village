@@ -285,7 +285,6 @@
 .contacts-small { color: var(--muted-foreground); font-size: var(--contactsSmall); line-height: 1.25; }
 .contacts-dark-card { background: var(--contactsDark); border-radius: calc(var(--radius) * 3); }
 .contacts-online { background: var(--contactsOnline); border: 2px solid var(--contactsDark); }
-.contacts-icon-button { border: 1px solid var(--muted-foreground); border-radius: 999px; }
 .contacts-phone-button { min-width: 12rem; background: transparent; }
 .contacts-locations { background: var(--contactsSection); }
 .contacts-map img { filter: grayscale(1) brightness(0.62) contrast(1.15); }

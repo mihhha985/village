@@ -10,9 +10,6 @@ import { Card } from "@/src/lib/ui/card"
 import { Calendar } from "@/src/components/ui/CustomCalendar"
 import { Spinner } from "@/src/lib/ui/spinner"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/src/lib/ui/form"
-import { IoLogoVk } from "react-icons/io5";
-import { Instagram } from "lucide-react"
-import { FaTelegramPlane, FaWhatsapp } from "react-icons/fa";
 import Title from "@/src/components/ui/Title"
 import { toast } from "sonner"
 import * as z from "zod"
@@ -21,6 +18,7 @@ import { startOfDay } from "date-fns";
 import { ru } from "date-fns/locale";
 import { ContactDataSchema, ContactRequestSchema } from "@/src/lib/validations/booking";
 import { submitRequest } from "@/src/lib/utils/submit-request";
+import { SocialLinks } from "@/src/components/SocialLinks";
 
 const contactFormSchema = ContactDataSchema;
 
@@ -200,22 +198,17 @@ export function ContactSection() {
           <div className="grid lg:grid-cols-3 gap-8">
             <Card className="border-none p-6 text-lg">
               <h3>Телефон</h3>
-              <a href="tel:+79991234567" aria-label="Позвонить в DeРевню" className="location-back">+7 (999) 123-45-67</a>
+              <a href="tel:+79991234567" aria-label="Позвонить в TheVillage" className="location-back">+7 (999) 123-45-67</a>
             </Card>
 
             <Card className="border-none p-6 text-lg">
               <h3>Почта</h3>
-              <a href="mailto:hello@derevnya.ru" aria-label="Написать в DeРевню" className="location-back">hello@derevnya.ru</a>
+              <a href="mailto:hello@derevnya.ru" aria-label="Написать в TheVillage" className="location-back">hello@derevnya.ru</a>
             </Card>
 
             <Card className="border-none p-6">
               <h3 className="text-xl">Мессенджеры и соц. сети</h3>
-              <div className="flex gap-3">
-								<Button disabled aria-label="Telegram — ссылка пока не настроена" variant="ghost" size="icon" className="border border-white text-lg font-light leading-none"><FaTelegramPlane className="h-5 w-5" /></Button>
-								<Button disabled aria-label="WhatsApp — ссылка пока не настроена" variant="ghost" size="icon" className="border border-white text-lg font-light leading-none"><FaWhatsapp className="h-5 w-5" /></Button>
-                <Button disabled aria-label="Instagram — ссылка пока не настроена" variant={"ghost"} size={"icon-lg"} className="border border-white"><Instagram className="w-5 h-5" /></Button>
-                <Button disabled aria-label="ВКонтакте — ссылка пока не настроена" variant={"ghost"} size={"icon-lg"} className="border border-white"><IoLogoVk className="w-5 h-5" /></Button>
-              </div>
+              <SocialLinks />
             </Card>
           </div>
         </div>

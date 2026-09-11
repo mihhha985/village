@@ -57,10 +57,10 @@ export const BOOKING_LIMITS = {
 } as const;
 
 export const LOCATIONS = {
-  prostor: 'DeРевня. Простор',
-  ozero: 'DeРевня. Озеро', 
-  city: 'DeРевня. City',
-  longlife: 'DeРевня. Longlife',
+  prostor: 'TheVillage. Простор',
+  ozero: 'TheVillage. Озеро',
+  city: 'TheVillage. City',
+  longlife: 'TheVillage. Longlife',
 } as const;
 
 export type LocationKey = keyof typeof LOCATIONS;

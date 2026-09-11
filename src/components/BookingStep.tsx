@@ -4,11 +4,11 @@ import { LOCATIONS } from "@/src/lib/types/booking";
 import { useOrderModal } from "@/src/store/modal";
 import Image from "next/image"
 import { ChevronRight } from "lucide-react"
-import { FaTelegramPlane, FaWhatsapp } from "react-icons/fa";
 import { Avatar, AvatarFallback, AvatarImage } from "@/src/lib/ui/avatar"
 import { Button } from "@/src/lib/ui/button"
 import { Card } from "@/src/lib/ui/card"
 import Title from "@/src/components/ui/Title";
+import { SocialLinks } from "@/src/components/SocialLinks";
 
 export function BookingSteps() {
   const locations = Object.entries(LOCATIONS);
@@ -25,14 +25,14 @@ export function BookingSteps() {
       <div className="space-y-6">
         {/* Step 1 */}
         <Card>
-          <div className="grid gap-8 p-8 lg:grid-cols-2 lg:gap-12 lg:p-12">
+          <div className="grid gap-8 p-4 sm:p-8 lg:grid-cols-2 lg:gap-12 lg:p-12">
             {/* Left Content */}
-            <div className="flex flex-col gap-6">
-              <div className="shrink-0 flex gap-x-6 items-center">
+            <div className="flex min-w-0 flex-col gap-6">
+              <div className="flex min-w-0 gap-x-6 items-center">
                 <div className="shrink-0 flex h-10 sm:h-12 w-10 sm:w-12 items-center justify-center rounded-full border border-white text-xl font-light">
                   1
                 </div>
-								 <h2 className="text-xl sm:text-2xl font-light lg:text-3xl">Выберите базу отдыха и желаемый дом</h2>
+								 <h2 className="min-w-0 text-xl sm:text-2xl font-light lg:text-3xl">Выберите базу отдыха и желаемый дом</h2>
               </div>
               <div className="space-y-4">
                 <p className="text-xs sm:text-sm leading-relaxed">
@@ -43,14 +43,14 @@ export function BookingSteps() {
             </div>
 
             {/* Right Content - Location List */}
-            <div className="w-full flex flex-col gap-y-3">
+            <div className="w-full min-w-0 flex flex-col gap-y-3">
               {locations.map(([key, location], index) => (
                 <Button
                   asChild className="group justify-between py-6 w-full"
                   variant="link"
 									key={index}
 								>
-                  <a href={`#${key}`} aria-label={location}><span className="ml-6 text-lg sm:text-xl font-light">{location}</span>
+                  <a href={`#${key}`} aria-label={location}><span className="ml-6 min-w-0 flex-1 truncate text-left text-lg sm:text-xl font-light">{location}</span>
                   <ChevronRight className="mr-6 h-5 w-5 transition-transform group-hover:translate-x-1" /></a>
                 </Button>
               ))}
@@ -60,14 +60,14 @@ export function BookingSteps() {
 
         {/* Step 2 */}
         <Card>
-          <div className="grid gap-8 p-8 lg:grid-cols-2 lg:gap-12 lg:p-12 overflow-hidden">
+          <div className="grid gap-8 overflow-hidden p-4 sm:p-8 lg:grid-cols-2 lg:gap-12 lg:p-12">
             {/* Left Content */}
-            <div className="flex flex-col gap-6">
-              <div className="shrink-0 flex gap-x-6 items-center">
+            <div className="flex min-w-0 flex-col gap-6">
+              <div className="flex min-w-0 gap-x-6 items-center">
                 <div className="shrink-0 flex h-10 sm:h-12 w-10 sm:w-12 items-center justify-center rounded-full border border-white text-xl font-light">
                   2
                 </div>
-								<h2 className="flex-1 text-xl sm:text-2xl lg:text-3xl font-light">Перейдите на страницу бронирования</h2>
+								<h2 className="min-w-0 flex-1 text-xl sm:text-2xl lg:text-3xl font-light">Перейдите на страницу бронирования</h2>
               </div>
               <div className="text-xs sm:text-sm space-y-4">
                 <p>Вы можете  перейти к бронированию конкретного дома из страницы соответствующей базы
@@ -77,13 +77,14 @@ export function BookingSteps() {
             </div>
 
             {/* Right Content - Calendar Preview */}
-            <div className="w-full flex flex-col ">
+            <div className="w-full min-w-0 flex flex-col">
               <Image
 								src="/calendar.png"
 								alt="Booking Calendar"
 								width={600}
 								height={400}
 								sizes="(max-width: 640px) 100vw, 300px"
+								className="h-auto w-full"
 							/>
 
               {/* Link Below */}
@@ -102,12 +103,12 @@ export function BookingSteps() {
         <Card>
           <div className="grid gap-8 p-4 sm:p-8 lg:grid-cols-2 lg:gap-12 lg:p-12">
             {/* Left Content */}
-            <div className="flex flex-col gap-6">
-              <div className="shrink-0 flex gap-x-6 items-center">
+            <div className="flex min-w-0 flex-col gap-6">
+              <div className="flex min-w-0 gap-x-6 items-center">
                 <div className="shrink-0 flex h-10 sm:h-12 w-10 sm:w-12 items-center justify-center rounded-full border border-white text-xl font-light">
                   3
                 </div>
-								<h2 className="flex-1 text-xl sm:text-2xl lg:text-3xl font-light">Подготовьтесь перед приездом</h2>
+								<h2 className="min-w-0 flex-1 text-xl sm:text-2xl lg:text-3xl font-light">Подготовьтесь перед приездом</h2>
               </div>
               <div className="space-y-3 text-xs sm:text-sm leading-relaxed">
                 <p>
@@ -147,10 +148,7 @@ export function BookingSteps() {
                   {/* Contact Buttons */}
                   <div className="flex flex-col sm:flex-row gap-3">
                     <Button asChild variant="ghost" className="border border-white text-lg font-light leading-none"><a href="tel:+79137777777" aria-label="Позвонить в службу заботы">+7 (913) 777-77-77</a></Button>
-										<div className="flex items-center justify-end gap-3">
-											<Button disabled aria-label="Telegram — ссылка пока не настроена" variant="ghost" size="icon" className="border border-white text-lg font-light leading-none"><FaTelegramPlane className="h-5 w-5" /></Button>
-											<Button disabled aria-label="WhatsApp — ссылка пока не настроена" variant="ghost" size="icon" className="border border-white text-lg font-light leading-none"><FaWhatsapp className="h-5 w-5" /></Button>
-										</div>
+										<SocialLinks services={["telegram", "whatsapp"]} />
                   </div>
                 </div>
           </div>
