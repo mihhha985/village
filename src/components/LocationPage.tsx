@@ -33,7 +33,7 @@ export function LocationPage({ locationKey }: { locationKey: LocationKey }) {
             </div>
             <figure className="space-y-3">
               <Image src={location.photos[0].src} alt={location.photos[0].alt} width={800} height={620} priority sizes="(max-width: 1024px) 100vw, 50vw" className="location-hero-photo" />
-              <figcaption className="location-caption">Атмосфера TheVillage{hasLocationPhotos ? "" : " · иллюстрация"}</figcaption>
+              <figcaption className="location-caption">Атмосфера TheВилла{hasLocationPhotos ? "" : " · иллюстрация"}</figcaption>
             </figure>
           </div>
         </RevealSection>

@@ -198,12 +198,12 @@ export function ContactSection() {
           <div className="grid lg:grid-cols-3 gap-8">
             <Card className="border-none p-6 text-lg">
               <h3>Телефон</h3>
-              <a href="tel:+79991234567" aria-label="Позвонить в TheVillage" className="location-back">+7 (999) 123-45-67</a>
+              <a href="tel:+79991234567" aria-label="Позвонить в TheВилла" className="location-back">+7 (999) 123-45-67</a>
             </Card>
 
             <Card className="border-none p-6 text-lg">
               <h3>Почта</h3>
-              <a href="mailto:hello@derevnya.ru" aria-label="Написать в TheVillage" className="location-back">hello@derevnya.ru</a>
+              <a href="mailto:hello@thevilla.ru" aria-label="Написать в TheВилла" className="location-back">hello@thevilla.ru</a>
             </Card>
 
             <Card className="border-none p-6">

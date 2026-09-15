@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getYandexMapsApiKey } from "@/src/lib/runtime-config";
 
 const STATIC_MAPS_URL = "https://static-maps.yandex.ru/v1";
 const COORDINATE_PAIR_PATTERN = /^-?\d+(?:\.\d+)?,-?\d+(?:\.\d+)?$/;
+
+export const dynamic = "force-dynamic";
 
 function jsonError(message: string, status: number) {
   return NextResponse.json({ error: message }, { status });
@@ -22,7 +25,7 @@ export async function GET(request: NextRequest) {
     return jsonError("Invalid map zoom", 400);
   }
 
-  const apiKey = process.env.YANDEX_MAPS_API_KEY ?? process.env.NEXT_PUBLIC_YANDEX_MAPS_API_KEY;
+  const apiKey = getYandexMapsApiKey();
   if (!apiKey) {
     return jsonError("Yandex Static API key is not configured", 500);
   }

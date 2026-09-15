@@ -27,7 +27,7 @@ function StaticMapImage({ imageUrl }: { imageUrl: string }) {
     >
       <Image
         src={imageUrl}
-        alt="Карта расположения локаций TheVillage"
+        alt="Карта расположения локаций TheВилла"
         fill
         unoptimized
         className="object-cover"

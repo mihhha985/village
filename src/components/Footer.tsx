@@ -9,9 +9,9 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
           {/* Brand and Social Section */}
           <div className="space-y-6">
-            <h2 className="text-2xl font-logo">TheVillage</h2>
+            <h2 className="text-2xl font-logo">TheВилла</h2>
             <div className="text-xs leading-relaxed space-y-1">
-              <p>© 2025 TheVillage. Все права защищены.</p>
+              <p>© 2025 TheВилла. Все права защищены.</p>
             </div>
             <div className="space-y-3">
               <p className="text-base">Мессенджеры и соц. сети</p>
@@ -40,16 +40,16 @@ export function Footer() {
             <h3 className="text-base font-normal">Базы отдыха</h3>
             <nav className="flex flex-col gap-3">
               <Link href="/prostor" className="text-sm hover:text-accent transition-colors">
-                TheVillage. Простор
+                TheВилла. Простор
               </Link>
               <Link href="/ozero" className="text-sm hover:text-accent transition-colors">
-                TheVillage. Озеро
+                TheВилла. Озеро
               </Link>
               <Link href="/city" className="text-sm hover:text-accent transition-colors">
-                TheVillage. City
+                TheВилла. City
               </Link>
               <Link href="/longlife" className="text-sm hover:text-accent transition-colors">
-                TheVillage. Longlife
+                TheВилла. Longlife
               </Link>
             </nav>
           </div>
@@ -66,8 +66,8 @@ export function Footer() {
               </div>
               <div>
                 <p className="text-base text-muted-foreground mb-1">Почта</p>
-                <Link href="mailto:hello@derevnya.ru" className="text-sm hover:text-accent transition-colors">
-                  hello@derevnya.ru
+                <Link href="mailto:hello@thevilla.ru" className="text-sm hover:text-accent transition-colors">
+                  hello@thevilla.ru
                 </Link>
               </div>
             </div>

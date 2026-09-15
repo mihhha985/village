@@ -26,7 +26,7 @@ const locations: Array<{
 }> = [
   {
     id: "city",
-    name: "TheVillage. City",
+    name: "TheВилла. City",
     description: "В черте города, в Новосаратовке — отдых с удобствами рядом с домом: дома, баня и бассейн без долгих поездок.",
     coordinates: "59.840072, 30.532057",
     distance: "10 минут на машине от КАД",
@@ -34,7 +34,7 @@ const locations: Array<{
   },
   {
     id: "ozero",
-    name: "TheVillage. Озеро",
+    name: "TheВилла. Озеро",
     description: "Тихий отдых у воды для неспешных выходных, прогулок и времени с близкими.",
     coordinates: "60.150000, 29.950000",
     distance: "около 40 минут от города",
@@ -42,7 +42,7 @@ const locations: Array<{
   },
   {
     id: "prostor",
-    name: "TheVillage. Простор",
+    name: "TheВилла. Простор",
     description: "Просторная загородная локация для семейных поездок и отдыха большой компанией.",
     coordinates: "60.720000, 28.750000",
     distance: "около 2 часов от города",
@@ -50,7 +50,7 @@ const locations: Array<{
   },
   {
     id: "longlife",
-    name: "TheVillage. Longlife",
+    name: "TheВилла. Longlife",
     description: "Формат для продолжительного проживания в спокойном ритме рядом с природой.",
     coordinates: "60.550000, 29.770000",
     distance: "около 1,5 часов от города",
@@ -82,7 +82,7 @@ export function ContactsPage() {
                     <Link href={`mailto:${EMAIL}`} className="flex items-center gap-3 hover:text-primary"><Mail className="size-5" aria-hidden="true" /> {EMAIL}</Link>
                     <p className="flex items-center gap-3"><Clock3 className="size-5" aria-hidden="true" /> с 9:00 до 18:00 ПН–ПТ</p>
                   </div>
-                  <Image src="/contacts-city.png" alt="Иллюстрация домов TheVillage на фоне города" width={644} height={365} priority className="mt-5 w-full lg:hidden" />
+                  <Image src="/contacts-city.png" alt="Иллюстрация домов TheВилла на фоне города" width={644} height={365} priority className="mt-5 w-full lg:hidden" />
                 </div>
                 <div className="max-w-2xl">
                   <h2 className="contacts-card-title mb-4">Информация о компании</h2>
@@ -149,7 +149,7 @@ export function ContactsPage() {
         <RevealSection className="container py-10 lg:py-14" aria-labelledby="feedback-title">
           <div className="grid gap-5 lg:grid-cols-[0.78fr_1.22fr]">
             <article className="contacts-feedback-image relative min-h-110 overflow-hidden p-7 md:min-h-125">
-              <Image src="/foto2.jpg" alt="Территория базы отдыха TheVillage" fill sizes="(min-width: 1024px) 40vw, 100vw" className="object-cover" />
+              <Image src="/foto2.jpg" alt="Территория базы отдыха TheВилла" fill sizes="(min-width: 1024px) 40vw, 100vw" className="object-cover" />
               <div className="contacts-photo-overlay absolute inset-0" />
               <div className="relative z-1 flex h-full min-h-96 flex-col justify-between">
                 <div><p className="contacts-small">Форма обратной связи</p><h2 id="feedback-title" className="contacts-section-title mt-5">Всегда на связи</h2></div>

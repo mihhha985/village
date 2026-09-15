@@ -2,14 +2,14 @@ import { z } from "zod";
 import { startOfDay } from "date-fns";
 import { BOOKING_LIMITS, LOCATIONS } from "@/src/lib/types/booking";
 
-export const AdultSchema = z.object({
+const AdultSchema = z.object({
   count: z.number().int().min(BOOKING_LIMITS.MIN_ADULTS_PER_ROOM).max(BOOKING_LIMITS.MAX_ADULTS_PER_ROOM),
 });
-export const ChildrenSchema = z.object({
+const ChildrenSchema = z.object({
   count: z.number().int().min(0).max(BOOKING_LIMITS.MAX_CHILDREN_PER_ROOM),
   ages: z.array(z.number().int().min(0).max(17)),
 }).refine(data => data.ages.length === data.count, { message: "Укажите возраст каждого ребёнка", path: ["ages"] });
-export const RoomSchema = z.object({
+const RoomSchema = z.object({
   id: z.string().min(1),
   index: z.number().int().positive(),
   adults: AdultSchema,
@@ -47,5 +47,4 @@ export const OrderDataSchema = z.object({
   comment: z.string().trim().max(500, "Комментарий слишком длинный").optional(),
   agreement: z.boolean().refine(value => value, "Необходимо принять условия"),
 }).refine(dateOrder, dateError);
-export type SearchDataType = z.infer<typeof SearchDataSchema>;
 export type OrderDataType = z.infer<typeof OrderDataSchema>;

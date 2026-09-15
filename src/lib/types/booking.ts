@@ -23,31 +23,6 @@ export interface SearchData {
   guests: Room[] | null;
 }
 
-export interface GuestSelection {
-  rooms: Room[];
-  totalAdults: number;
-  totalChildren: number;
-}
-
-export interface BookingData {
-  location: string;
-  checkIn: Date | null;
-  checkOut: Date | null;
-  guestSelection: GuestSelection;
-}
-
-export interface BookingRequest extends BookingData {
-  customerInfo: CustomerInfo;
-  specialRequests?: string;
-  totalPrice?: number;
-}
-
-export interface CustomerInfo {
-  name: string;
-  email: string;
-  phone: string;
-}
-
 // Константы
 export const BOOKING_LIMITS = {
   MAX_ROOMS: 5,
@@ -57,10 +32,10 @@ export const BOOKING_LIMITS = {
 } as const;
 
 export const LOCATIONS = {
-  prostor: 'TheVillage. Простор',
-  ozero: 'TheVillage. Озеро',
-  city: 'TheVillage. City',
-  longlife: 'TheVillage. Longlife',
+  prostor: 'TheВилла. Простор',
+  ozero: 'TheВилла. Озеро',
+  city: 'TheВилла. City',
+  longlife: 'TheВилла. Longlife',
 } as const;
 
 export type LocationKey = keyof typeof LOCATIONS;

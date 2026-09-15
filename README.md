@@ -1,48 +1,26 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TheВилла
 
-## Getting Started
+Сайт на Next.js 16. Требуется Node.js 20.9 или новее.
 
-First, run the development server:
+## Локальный запуск
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Сайт разработки доступен на `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-
-
-## Проверка и приём заявок
+## Проверка
 
 - `npm run lint` — проверка кода.
 - `npm test` — регрессионные тесты бронирования и обработки заявок (без внешней отправки).
-- `npm run build` и `npm start` — production-сборка и запуск.
+- `npm run build` — production-сборка.
+- `npm start` — локальный запуск собранного standalone-сервера.
 
-Скопируйте `.env.example` в `.env.local`. Для приёма заявок задайте серверную переменную
+## Переменные окружения
+
+Скопируйте `.env.example` в `.env`. Для приёма заявок задайте серверную переменную
 `REQUESTS_WEBHOOK_URL` и, если требуется, `REQUESTS_WEBHOOK_TOKEN` (Bearer).
 Обработчик `/api/requests` проверяет данные и пересылает JSON с `type: booking` или
 `type: contact`. Даты передаются как `yyyy-MM-dd`, без сдвига часового пояса.
@@ -50,6 +28,22 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 Без настроенного адреса API возвращает 503, а форма сохраняет введённые данные и сообщает
 о недоступности. Внешняя доставка требует проверки с реальным сервисом.
 
-Для встроенной карты нужен действующий `NEXT_PUBLIC_YANDEX_MAPS_API_KEY`.
+Для встроенной карты нужен действующий `YANDEX_MAPS_API_KEY`. Старое имя
+`NEXT_PUBLIC_YANDEX_MAPS_API_KEY` также поддерживается.
 При недоступности API адреса и ссылки на карту остаются доступны.
-Кнопки соцсетей ведут на официальные сайты сервисов, пока не настроены ссылки на аккаунты TheVillage.
+Кнопки соцсетей ведут на официальные сайты сервисов, пока не настроены ссылки на аккаунты TheВилла.
+
+## Деплой с PM2
+
+На сервере установите PM2 один раз глобально, затем из корня проекта выполните:
+
+```bash
+npm ci
+npm run build
+npm run pm2:start
+pm2 save
+pm2 startup
+```
+
+Конфигурация `ecosystem.config.cjs` запускает standalone-сервер на `0.0.0.0:3002`.
+После обновления проекта выполните `npm ci`, `npm run build` и `npm run pm2:restart`.

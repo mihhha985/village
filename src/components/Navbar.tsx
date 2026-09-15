@@ -8,10 +8,10 @@ import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react"
 
 const menuItems = [
-  { label: "TheVillage Простор", href: "/prostor" },
-  { label: "TheVillage Озеро", href: "/ozero" },
-  { label: "TheVillage City", href: "/city" },
-  { label: "TheVillage Longlife", href: "/longlife" },
+  { label: "TheВилла Простор", href: "/prostor" },
+  { label: "TheВилла Озеро", href: "/ozero" },
+  { label: "TheВилла City", href: "/city" },
+  { label: "TheВилла Longlife", href: "/longlife" },
   { label: "О нас", href: "/about" },
   { label: "Контакты", href: "/contacts" },
 ];
@@ -43,9 +43,9 @@ export function Navbar() {
             <div className="flex items-center">
 								<Link
 									href="/"
-									aria-label="TheVillage — главная"
+									aria-label="TheВилла — главная"
 									className={`text-3xl sm:text-4xl xl:text-5xl font-logo ${pathname === "/" ? "text-accent" : "text-foreground"}`}>
-                	TheVillage
+					TheВилла
               </Link>
             </div>
           </div>

@@ -3,7 +3,12 @@ import { ContactRequestSchema, FeedbackRequestSchema, OrderDataSchema } from "@/
 
 const parseDate = (value: unknown) => typeof value === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value) ? parseISO(value) : undefined;
 
-export async function receiveRequest(request: Request): Promise<Response> {
+type RequestDeliveryConfig = {
+  requestsWebhookUrl?: string;
+  requestsWebhookToken?: string;
+};
+
+export async function receiveRequest(request: Request, config: RequestDeliveryConfig = {}): Promise<Response> {
   let body;
   try {
     body = await request.json();
@@ -22,13 +27,13 @@ export async function receiveRequest(request: Request): Promise<Response> {
     return Response.json({ error: result.error.issues[0].message }, { status: 400 });
   }
 
-  const url = process.env.REQUESTS_WEBHOOK_URL;
+  const url = config.requestsWebhookUrl;
   if (!url) {
     return Response.json({ error: "Приём заявок временно недоступен. Пожалуйста, свяжитесь с нами напрямую." }, { status: 503 });
   }
   try {
     const headers: Record<string, string> = { "Content-Type": "application/json" };
-    if (process.env.REQUESTS_WEBHOOK_TOKEN) headers.Authorization = `Bearer ${process.env.REQUESTS_WEBHOOK_TOKEN}`;
+    if (config.requestsWebhookToken) headers.Authorization = `Bearer ${config.requestsWebhookToken}`;
     const data = body.type === "booking"
       ? { ...result.data, checkIn: body.checkIn, checkOut: body.checkOut }
       : body.type === "contact"

@@ -55,4 +55,3 @@ export function OrderModal({ initialLocation = "" }: { initialLocation?: Locatio
     </Dialog>
   );
 }
-export default OrderModal;

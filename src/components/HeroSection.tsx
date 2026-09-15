@@ -14,7 +14,7 @@ export function HeroSection() {
             <RevealText>Проведите свободное время с близкими на природе</RevealText>
           </h1>
           <p className="text-lg md:text-xl leading-relaxed mt-5">
-            Отдых в TheVillage: уютные технологичные дома
+            Отдых в TheВилла: уютные технологичные дома
             и завораживающая красота пейзажей
             вдали от суеты города
           </p>

@@ -6,7 +6,7 @@ import { PlansSection } from "@/src/components/PlansSection";
 import { HowToBookSection } from "@/src/components/HowToBookSection";
 import { ContactSection } from "@/src/components/ContactSection";
 import { Footer } from "@/src/components/Footer";
-import OrderModal from "@/src/components/OrderModal";
+import { OrderModal } from "@/src/components/OrderModal";
 
 export default function Home() {
   return (

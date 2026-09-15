@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-export type OrderModalType = {
+type OrderModalType = {
 	visible: boolean;
 	show: ()=>void;
 	hide: ()=>void;

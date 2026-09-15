@@ -62,15 +62,11 @@ test("API rejects malformed JSON and invalid dates", async () => {
   assert.equal((await receiveRequest(request({ ...payload, checkIn: null }))).status, 400);
 });
 test("API never reports success without configured delivery", async () => {
-  const previous = process.env.REQUESTS_WEBHOOK_URL;
-  delete process.env.REQUESTS_WEBHOOK_URL;
-  try { assert.equal((await receiveRequest(request(payload))).status, 503); }
-  finally { if (previous !== undefined) process.env.REQUESTS_WEBHOOK_URL = previous; }
+  assert.equal((await receiveRequest(request(payload))).status, 503);
 });
 test("API forwards validated data, preserves calendar dates, handles upstream failure", async () => {
-  const previous = process.env.REQUESTS_WEBHOOK_URL;
   const originalFetch = globalThis.fetch;
-  process.env.REQUESTS_WEBHOOK_URL = "https://example.com/requests";
+  const config = { requestsWebhookUrl: "https://example.com/requests" };
   try {
     globalThis.fetch = async (_url, options) => {
       const sent = JSON.parse(options.body);
@@ -78,15 +74,13 @@ test("API forwards validated data, preserves calendar dates, handles upstream fa
       assert.equal(sent.untrusted, undefined);
       return new Response(null, { status: 204 });
     };
-    const response = await receiveRequest(request({ ...payload, untrusted: "discard" }));
+    const response = await receiveRequest(request({ ...payload, untrusted: "discard" }), config);
     assert.deepEqual(await response.json(), { success: true });
     globalThis.fetch = async () => new Response(null, { status: 500 });
-    assert.equal((await receiveRequest(request(payload))).status, 502);
+    assert.equal((await receiveRequest(request(payload), config)).status, 502);
     globalThis.fetch = async () => { throw new Error("network failure"); };
-    assert.equal((await receiveRequest(request(payload))).status, 502);
+    assert.equal((await receiveRequest(request(payload), config)).status, 502);
   } finally {
     globalThis.fetch = originalFetch;
-    if (previous === undefined) delete process.env.REQUESTS_WEBHOOK_URL;
-    else process.env.REQUESTS_WEBHOOK_URL = previous;
   }
 });
